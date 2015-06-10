@@ -122,3 +122,9 @@ void GameObject::activate()
 
 	updateRect();
 }
+
+void GameObject::activate(float gravity)
+{
+	_speedY += gravity;
+	activate();
+}

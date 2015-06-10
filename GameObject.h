@@ -59,5 +59,6 @@ public:
 	float getSpeed();
 
 	void activate();
+	void activate(float gravity);
 };
 

@@ -24,6 +24,7 @@
 #include <cmath>
 #include <string>
 #include <vector>
+#include <list>
 #include <time.h>
 #include <iostream>
 #include <functional>
@@ -64,11 +65,20 @@
 //윈도우 위치 사이즈
 #define WIN_START_X		100		//x위치
 #define WIN_START_Y		100		//y위치
-#define WIN_SIZE_X		1000		//폭
-#define WIN_SIZE_Y		700		//높이
+#define WIN_SIZE_X		800		//폭
+#define WIN_SIZE_Y		600		//높이
 
 //윈도우 스타일
 #define WIN_STYLE		WS_CAPTION | WS_SYSMENU
+
+//게임 상수
+#define STAGE_WIDTH		2400
+#define STAGE_HEIGHT	WIN_SIZE_Y
+
+#define LAND_HEIGHT		100
+
+#define GRAVITY_ACCEL	(20 * 3.0 / pow(TimeManager::getSingleton()->getElapsedTime() * 1000, 2))
+//게임 상수 end
 
 //안전 동적할당 해제 매크로
 #define SAFE_DELETE(p)			{if (p) {delete(p); (p)=NULL;}}

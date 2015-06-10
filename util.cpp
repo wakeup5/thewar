@@ -37,6 +37,24 @@ namespace myUtil
 	*/
 	float getGradeRadianByTwoPoint(float x1, float y1, float x2, float y2)
 	{
-		return atan2(y1 - y2, x2 - x1);
+		if (y1 > y2)
+		{
+			return atan2(y1 - y2, x2 - x1);
+		}
+		else
+		{
+			return 2 * M_PI - atan2(y2 - y1, x2 - x1);
+		}
+	}
+
+	//라디안 각도를 디그리 각도로 변환
+	float degreeFromRadian(float radian)
+	{
+		return (radian / (2 * M_PI)) * 360;
+	}
+	//디그리 각도를 라디안 각도로 변환
+	float radianFromDegree(float degree)
+	{
+		return (degree / 360) * (2 * M_PI);
 	}
 }

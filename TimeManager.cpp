@@ -44,7 +44,7 @@ void TimeManager::render(HDC hdc)
 	std::string strFrame;
 
 	SetBkMode(hdc, TRANSPARENT);
-	SetTextColor(hdc, RGB(255, 255, 255));
+	SetTextColor(hdc, RGB(128, 128, 128));
 
 #ifdef _DEBUG
 	if(_timer != NULL)

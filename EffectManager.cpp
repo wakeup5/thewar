@@ -28,7 +28,7 @@ void EffectManager::update()
 {
 	for (_viEffect = _vEffect.begin(); _viEffect != _vEffect.end();)
 	{
-		(*_viEffect)->nextFrame(20);
+		(*_viEffect)->nextFrame(100);
 		if ((*_viEffect)->getFrameX() >= (*_viEffect)->getMaxFrameX() && (*_viEffect)->getFrameY() >= (*_viEffect)->getMaxFrameY())
 		{
 			(*_viEffect)->release();

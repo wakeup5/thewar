@@ -1,10 +1,11 @@
 #pragma once
 #include "GameNode.h"
+#include "PlayerManager.h"
 
-class GameStudy :
-	public GameNode
+class GameStudy : public GameNode
 {
 private:
+	PlayerManager* _playerManager;
 
 public:
 	GameStudy(){}
