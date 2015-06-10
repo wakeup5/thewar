@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Game2DFramework">
+      <UniqueIdentifier>{a8ee482c-ef4e-4f66-90ce-51116db1e875}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game2DFramework\manager">
+      <UniqueIdentifier>{e9c9dcf6-8266-471b-ba61-6de485994997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameStudy">
+      <UniqueIdentifier>{eebdd4b8-9453-4bf5-bc67-f61c83e0a6a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game2DFramework\image">
+      <UniqueIdentifier>{aa195cc9-ae78-4163-8851-a880de85b232}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game2DFramework\util">
+      <UniqueIdentifier>{6e898b9f-4061-4591-bbc4-4aab491863bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="숙제">
+      <UniqueIdentifier>{74e12559-094d-484e-a2ff-1a7491be217d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameStudy\GameClass">
+      <UniqueIdentifier>{3bd5f6cb-a06b-47a8-acbd-a02385cda5bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameStudy\Object">
+      <UniqueIdentifier>{e0deb07d-80cc-4689-a723-fcd2ecdef61d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game2DFramework\time">
+      <UniqueIdentifier>{578b6029-1daf-40f9-be9d-e1208c08fd96}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SingletonBase.h">
+      <Filter>Game2DFramework\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>Game2DFramework\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Game2DFramework\image</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameNode.h">
+      <Filter>Game2DFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteImage.h">
+      <Filter>Game2DFramework\image</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageManager.h">
+      <Filter>Game2DFramework\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomFunction.h">
+      <Filter>Game2DFramework\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Game2DFramework\util</Filter>
+    </ClInclude>
+    <ClInclude Include="commonMacroFunction.h">
+      <Filter>Game2DFramework\util</Filter>
+    </ClInclude>
+    <ClInclude Include="objectGUID.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>GameStudy\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameStudy\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>Game2DFramework\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPattern.h">
+      <Filter>GameStudy\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Game2DFramework\time</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Game2DFramework\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectManager.h">
+      <Filter>GameStudy\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStudy.h">
+      <Filter>GameStudy</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameNode.cpp">
+      <Filter>Game2DFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>Game2DFramework\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="WinAPI basic.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Game2DFramework\image</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteImage.cpp">
+      <Filter>Game2DFramework\image</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageManager.cpp">
+      <Filter>Game2DFramework\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>Game2DFramework\util</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameStudy\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>GameStudy\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>Game2DFramework\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Game2DFramework\time</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Game2DFramework\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectManager.cpp">
+      <Filter>GameStudy\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStudy.cpp">
+      <Filter>GameStudy</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="숙제.txt">
+      <Filter>숙제</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\background.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="resource\backMap.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
