@@ -3,13 +3,16 @@
 #include "PlayerManager.h"
 #include "UI.h"
 #include "BackGround.h"
+#include "Land.h"
 
 class GameStudy : public GameNode
 {
 private:
-	PlayerManager* _playerManager;
 	UI* _ui;
+
+	PlayerManager* _playerManager;
 	BackGround* _bg;
+	Land* _land;
 public:
 	GameStudy(){}
 	virtual ~GameStudy(){}

@@ -46,8 +46,8 @@ void PlayerManager::update()
 	_bullet->update();
 
 	//카메라 위치 스테이지 클래스로 옮겨야 함.
-	float x = _player->getX() + (CAMERA->getMouseX() - _player->getX()) * 0.2;
-	float y = _player->getY() + (CAMERA->getMouseY() - _player->getY() - 300) * 0.2;
+	float x = _player->getX() + (CAMERA->getMouseX() - _player->getX()) * 0.3;
+	float y = _player->getY() + (CAMERA->getMouseY() - _player->getY() - 200) * 0.3;
 
 	CAMERA->setX(x);
 	CAMERA->setY(y);
@@ -77,7 +77,7 @@ void PlayerManager::playerFireUpdate()
 		case Player::PLAYER_WEAPON_SNIPER:
 			if (TIMEMANAGER->addTimer("player weapon sniper")->checkTime(800))
 			{
-				_bullet->fire(_player->getX(), _player->getY(), fireAngleR, 30, IMAGEMANAGER->findImage("water ball")->getSpriteImage(10, 1));
+				_bullet->fire(_player->getX(), _player->getY(), fireAngleR, 25, IMAGEMANAGER->findImage("water ball")->getSpriteImage(10, 1));
 				_player->setWater(_player->getWater() - 0.01);
 			}
 			break;

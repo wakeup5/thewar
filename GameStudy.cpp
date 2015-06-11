@@ -10,14 +10,20 @@ HRESULT GameStudy::initialize(void)
 
 	imageLoad();
 
-	_playerManager = new PlayerManager;
-	_playerManager->initialize();
-
 	_ui = new UI;
 	_ui->initialize();
 
+
+	//플레이어 매니저, 백그라운드, 지형 객체는 스테이지 객체에 있어야 함.
+	_playerManager = new PlayerManager;
+	_playerManager->initialize();
 	_bg = new BackGround;
 	_bg->initialize(true, false, IMAGEMANAGER->findImage("backMap"));
+
+	vector<RECT> v;
+
+	_land = new Land;
+	_land->initialize(v);
 
 	//ShowCursor(false);
 
@@ -28,9 +34,11 @@ HRESULT GameStudy::initialize(void)
 void GameStudy::release(void)
 {
 	GameNode::release();
-	_playerManager->release();
 	_ui->release();
+
+	_playerManager->release();
 	_bg->release();
+	_land->release();
 }
 
 //화면갱신
@@ -41,6 +49,7 @@ void GameStudy::update(void)
 	_playerManager->update();
 	_ui->update();
 	_bg->update();
+	_land->update();
 
 	EFFECTMANAGER->update();
 }
@@ -51,12 +60,18 @@ void GameStudy::render()
 	IMAGEMANAGER->render("mapImage", CAMERA->getCameraDC());
 
 	_bg->render();
+	_land->render();
 	_playerManager->render();
 
+	//이펙트 출력
 	EFFECTMANAGER->render(CAMERA->getCameraDC());
+	//카메라dc 출력
 	CAMERA->render(getMemDC());
+	//마우스 조준 이미지출력
 	IMAGEMANAGER->render("aim", getMemDC(), _mousePoint.x - 25, _mousePoint.y - 25);
+	//프레임 등 정보 출력
 	TIMEMANAGER->render(getMemDC());
+	//ui출력
 	_ui->render(getMemDC());
 	GameNode::render();
 }
@@ -83,4 +98,5 @@ void GameStudy::imageLoad()
 	IMAGEMANAGER->addImage("icon weapon sniper", "resource/sniper.bmp", 48, 48, TRUE, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("icon weapon bomb", "resource/bomb.bmp", 48, 48, TRUE, RGB(255, 0, 255));
 
+	IMAGEMANAGER->addImage("floor", "resource/floor.bmp", 512, 100);
 }
