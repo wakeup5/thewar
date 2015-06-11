@@ -9,10 +9,6 @@ private:
 	bool _managerInit;
 
 public:
-	HWND _screen1WND[2];
-	int _currentCtrl;
-
-public:
 	GameNode();
 	virtual ~GameNode();
 

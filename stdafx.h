@@ -41,8 +41,11 @@
 #include "ImageManager.h"
 #include "TimeManager.h"
 
+#include "Camera.h"
+
 #include "ObjectManager.h"
 #include "EffectManager.h"
+
 
 #include "util.h"
 
@@ -72,12 +75,16 @@
 #define WIN_STYLE		WS_CAPTION | WS_SYSMENU
 
 //게임 상수
-#define STAGE_WIDTH		2400
-#define STAGE_HEIGHT	WIN_SIZE_Y
+#define STAGE_WIDTH		1600
+#define STAGE_HEIGHT	800
 
 #define LAND_HEIGHT		100
 
 #define GRAVITY_ACCEL	(20 * 3.0 / pow(TimeManager::getSingleton()->getElapsedTime() * 1000, 2))
+#define BULLET_GRAVITY_ACCEL	(20 * 3.0 / pow(TimeManager::getSingleton()->getElapsedTime() * 1000, 2))
+
+#define PLAYER_SPEED	5
+#define PLAYER_JUMP		7	
 //게임 상수 end
 
 //안전 동적할당 해제 매크로
@@ -97,6 +104,8 @@
 #define TIMEMANAGER TimeManager::getSingleton()
 //class TimeManager
 #define EFFECTMANAGER EffectManager::getSingleton()
+//class Camera
+#define CAMERA Camera::getSingleton()
 
 //game info
 #define MAX_GAME_FPS	60.0f

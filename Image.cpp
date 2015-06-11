@@ -211,6 +211,9 @@ void Image::render(HDC hdc, float destX, float destY, BYTE alpha)
 /// 위치 렌더링 : 화면에 그릴 위치 x, y, 원본이미지의 상단 좌측 좌표 x, y, 잘라낼 폭, 잘라낼 높이
 void Image::render(HDC hdc, float destX, float destY, int sourX, int sourY, int width, int height, BYTE alpha)
 {
+	//화면 밖이면 그릴 필요 없음
+	//if (destX > WIN_SIZE_X || destY > WIN_SIZE_Y || destX + width < 0 || destY + height < 0) return;
+
 	//투명도가 있으면
 	if (alpha != 255)
 	{

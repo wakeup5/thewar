@@ -1,1 +1,5 @@
 //ObjectManager에서 사용할 GUID를 선언하는 곳.
+
+//GUID_PLAYER {A622298F-53A6-401B-87D4-92D0EB137156}
+static const GUID GUID_PLAYER =
+{ 0xa622298f, 0x53a6, 0x401b, { 0x87, 0xd4, 0x92, 0xd0, 0xeb, 0x13, 0x71, 0x56 } };

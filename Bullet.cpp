@@ -25,13 +25,13 @@ void OBullet::release()
 }
 void OBullet::update()
 {
-	activate(GRAVITY_ACCEL);
+	activate(BULLET_GRAVITY_ACCEL);
 	_image->setCenter(getX(), getY());
 	_image->nextFrame(_frameSpeed);
 }
 void OBullet::render()
 {
-	_image->render(getMemDC());
+	_image->render(CAMERA->getCameraDC());
 }
 
 HRESULT Bullet::initialize(float range)
@@ -61,7 +61,7 @@ void Bullet::update()
 
 		//라이프 타임
 		if (_range < myUtil::getDistanceByTwoPoint((*_liBullet)->getStartX(), (*_liBullet)->getStartY(), (*_liBullet)->getX(), (*_liBullet)->getY()) ||
-			(*_liBullet)->getY() > WIN_SIZE_Y - LAND_HEIGHT)
+			(*_liBullet)->getY() > STAGE_HEIGHT - LAND_HEIGHT)
 		{
 			EFFECTMANAGER->addEffect(
 				IMAGEMANAGER->findImage("water ball pop")->getSpriteImage((*_liBullet)->getX(), (*_liBullet)->getY(), 4, 1));

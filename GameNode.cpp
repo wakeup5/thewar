@@ -26,12 +26,13 @@ HRESULT GameNode::initialize(bool managerInit)
 
 		KEYMANAGER->initialize();					//키매니져 셋팅
 		IMAGEMANAGER->initialize();				//이미지 매니져 셋팅
-		GameNode::_backBuffer = IMAGEMANAGER->addImage("backBuffer", WIN_SIZE_X, WIN_SIZE_Y);
+		_backBuffer = IMAGEMANAGER->addImage("backBuffer", STAGE_WIDTH, STAGE_HEIGHT);
 
 		TIMEMANAGER->initialize();
 
 		OBJECTMANAGER->initialize();
 		EFFECTMANAGER->initialize();
+		CAMERA->initialize();
 	}
 
 	return S_OK;
@@ -48,6 +49,9 @@ void GameNode::release(void)
 	KEYMANAGER->release();
 	KEYMANAGER->releaseSingleton();
 
+	EFFECTMANAGER->release();
+	EFFECTMANAGER->releaseSingleton();
+
 	IMAGEMANAGER->release();
 	IMAGEMANAGER->releaseSingleton();
 
@@ -57,8 +61,8 @@ void GameNode::release(void)
 	OBJECTMANAGER->release();
 	OBJECTMANAGER->releaseSingleton();
 
-	EFFECTMANAGER->release();
-	EFFECTMANAGER->releaseSingleton();
+	CAMERA->release();
+	CAMERA->releaseSingleton();
 }
 
 //화면갱신
@@ -66,13 +70,12 @@ void GameNode::update(void)
 {
 	//화면 갱신
 	//InvalidateRect(_hWnd, NULL, false);
-	EFFECTMANAGER->update();
 }
 
 //화면출력
 void GameNode::render()
 {
-	EFFECTMANAGER->render(getMemDC());
+	
 	_backBuffer->render(getHDC());
 }
 
@@ -101,4 +104,3 @@ LRESULT GameNode::mainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 
 	return DefWindowProc(hWnd, iMessage, wParam, lParam);
 }
-
