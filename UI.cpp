@@ -27,6 +27,11 @@ void UI::update()
 }
 void UI::render(HDC bufferDC)
 {
+	//물 보유량 체크
+	float water = _player->getWater();
+	IMAGEMANAGER->render("water bar back", bufferDC, WIN_SIZE_X / 2 - 102, 11);
+	IMAGEMANAGER->render("water bar", bufferDC, WIN_SIZE_X / 2 - 100, 13, 0, 0, 200 * water, 10);
+
 	//체온 체크 크기 50, 50
 	float hp = _player->getHp();
 
@@ -36,7 +41,9 @@ void UI::render(HDC bufferDC)
 	ob = (HBRUSH)SelectObject(bufferDC, b);
 	p = CreatePen(PS_SOLID, 3, RGB(100 + 155 * hp, 50, 155 - 155 * hp));
 	op = (HPEN)SelectObject(bufferDC, p);
-	drawEllipseCenter(bufferDC, WIN_SIZE_X / 2, 40, 70, 70);
+
+	drawEllipseCenter(bufferDC, WIN_SIZE_X / 2, 45, 50, 50);
+
 	SelectObject(bufferDC, ob);
 	DeleteObject(b);
 	SelectObject(bufferDC, op);
@@ -47,9 +54,12 @@ void UI::render(HDC bufferDC)
 	
 	TCHAR str[128];
 	sprintf_s(str, "%2.1f", 34 + 2.9 * hp);
-	TextOut(bufferDC, WIN_SIZE_X / 2 - 13, 31, str, strlen(str));
-
-	//물 보유량 체크
+	TextOut(bufferDC, WIN_SIZE_X / 2 - 13, 36, str, strlen(str));
 
 	//무기 선택 체크
+	int weapon = _player->getWeapon();
+	IMAGEMANAGER->render("icon weapon pistol", bufferDC, WIN_SIZE_X - 200, 2, (weapon == Player::PLAYER_WEAPON_PISTOL) ? 255 : 100);
+	IMAGEMANAGER->render("icon weapon smg", bufferDC, WIN_SIZE_X - 150, 2, (weapon == Player::PLAYER_WEAPON_SMG) ? 255 : 100);
+	IMAGEMANAGER->render("icon weapon sniper", bufferDC, WIN_SIZE_X - 100, 2, (weapon == Player::PLAYER_WEAPON_SNIPER) ? 255 : 100);
+	IMAGEMANAGER->render("icon weapon bomb", bufferDC, WIN_SIZE_X - 50, 2, (weapon == Player::PLAYER_WEAPON_WATERBOMB) ? 255 : 100);
 }

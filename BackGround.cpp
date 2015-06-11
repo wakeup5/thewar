@@ -27,7 +27,7 @@ void BackGround::release()
 void BackGround::update()
 {
 	_x = CAMERA->getX() * 0.5;
-	_y = -CAMERA->getY() * 0.6 + WIN_SIZE_Y / 2;
+	_y = -CAMERA->getY() * 0.6 + 550;
 }
 void BackGround::render()
 {

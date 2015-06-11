@@ -28,21 +28,14 @@ void PlayerManager::release()
 }
 void PlayerManager::update()
 {
-	if (KEYMANAGER->isOnceKeyDown('1'))
+	playerFireUpdate();
+
+	if (KEYMANAGER->isOnceKeyDown('0'))
 	{
-		_player->setY(100);
+		_player->setWater(1);
 	}
 
-	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
-	{
-		_bullet->fire(
-			_player->getX(), _player->getY(),
-			myUtil::getGradeRadianByTwoPoint(_player->getX(), _player->getY(), CAMERA->getMouseX(), CAMERA->getMouseY()),
-			20,
-			IMAGEMANAGER->findImage("water ball")->getSpriteImage(10, 1));
-	}
-
-
+	//Land 클래스로 옮겨야 함.
 	if (_player->getRect().bottom + _player->getSpeedY() > STAGE_HEIGHT - LAND_HEIGHT)
 	{
 		_player->setSpeedY(0);
@@ -52,12 +45,53 @@ void PlayerManager::update()
 	_player->update();
 	_bullet->update();
 
+	//카메라 위치 스테이지 클래스로 옮겨야 함.
 	float x = _player->getX() + (CAMERA->getMouseX() - _player->getX()) * 0.2;
-	float y = _player->getY() + (CAMERA->getMouseY() - _player->getY()) * 0.2;
+	float y = _player->getY() + (CAMERA->getMouseY() - _player->getY() - 300) * 0.2;
 
 	CAMERA->setX(x);
 	CAMERA->setY(y);
 }
+
+void PlayerManager::playerFireUpdate()
+{
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON) && _player->getWater() > 0)
+	{
+		float fireAngleR = myUtil::getGradeRadianByTwoPoint(_player->getX(), _player->getY(), CAMERA->getMouseX(), CAMERA->getMouseY());
+		switch (_player->getWeapon())
+		{
+		case Player::PLAYER_WEAPON_PISTOL:
+			if (TIMEMANAGER->addTimer("player weapon pistol")->checkTime(200))
+			{
+				_bullet->fire(_player->getX(), _player->getY(), fireAngleR, 15, IMAGEMANAGER->findImage("water ball")->getSpriteImage(10, 1));
+				_player->setWater(_player->getWater() - 0.005);
+			}
+			break;
+		case Player::PLAYER_WEAPON_SMG:
+			if (TIMEMANAGER->addTimer("player weapon smg")->checkTime(75))
+			{
+				_bullet->fire(_player->getX(), _player->getY(), fireAngleR, 15, IMAGEMANAGER->findImage("water ball")->getSpriteImage(10, 1));
+				_player->setWater(_player->getWater() - 0.003);
+			}
+			break;
+		case Player::PLAYER_WEAPON_SNIPER:
+			if (TIMEMANAGER->addTimer("player weapon sniper")->checkTime(800))
+			{
+				_bullet->fire(_player->getX(), _player->getY(), fireAngleR, 30, IMAGEMANAGER->findImage("water ball")->getSpriteImage(10, 1));
+				_player->setWater(_player->getWater() - 0.01);
+			}
+			break;
+		case Player::PLAYER_WEAPON_WATERBOMB:
+			if (TIMEMANAGER->addTimer("player weapon bomb")->checkTime(1500))
+			{
+				_bullet->fire(_player->getX(), _player->getY(), fireAngleR, 8, IMAGEMANAGER->findImage("water ball")->getSpriteImage(10, 1));
+				_player->setWater(_player->getWater() - 0.05);
+			}
+			break;
+		}
+	}
+}
+
 void PlayerManager::render()
 {
 	_player->render();

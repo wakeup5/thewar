@@ -64,7 +64,7 @@ void GameStudy::render()
 void GameStudy::imageLoad()
 {
 	IMAGEMANAGER->addImage("mapImage", "resource/backMap.bmp", STAGE_WIDTH, STAGE_HEIGHT);
-	IMAGEMANAGER->addImage("backMap", "resource/background.bmp", 500, STAGE_HEIGHT);
+	IMAGEMANAGER->addImage("backMap", "resource/background.bmp", 256, 1000);
 
 	IMAGEMANAGER->addImage("player move", "resource/player_move.bmp", 160, 80, TRUE, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("player stay", "resource/player_stay.bmp", 40, 80, TRUE, RGB(255, 0, 255));
@@ -74,4 +74,13 @@ void GameStudy::imageLoad()
 	IMAGEMANAGER->addImage("water ball pop", "resource/water_ball_pop.bmp", 200, 50, TRUE, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addImage("aim", "resource/aim.bmp", 50, 50, TRUE, RGB(255, 0, 255));
+	
+	IMAGEMANAGER->addImage("water bar", "resource/water_bar.bmp", 200, 10);
+	IMAGEMANAGER->addImage("water bar back", "resource/water_bar_back.bmp", 204, 14, TRUE, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("icon weapon pistol", "resource/pistol.bmp", 48, 48, TRUE, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("icon weapon smg", "resource/smg.bmp", 48, 48, TRUE, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("icon weapon sniper", "resource/sniper.bmp", 48, 48, TRUE, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("icon weapon bomb", "resource/bomb.bmp", 48, 48, TRUE, RGB(255, 0, 255));
+
 }

@@ -5,6 +5,7 @@ class UI
 {
 private:
 	Player* _player;
+	Image* _waterBar;
 public:
 	UI();
 	~UI();

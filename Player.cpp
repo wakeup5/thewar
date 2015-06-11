@@ -19,6 +19,11 @@ HRESULT Player::initialize()
 
 	_playerState = PLAYER_STATE_STAY;
 
+	_water = 1.0;
+	_hp = 1.0;
+
+	_selectWeapon = Player::PLAYER_WEAPON_PISTOL;
+
 	GameObject::initialize(100, 100, 40, 40);
 
 	OBJECTMANAGER->addObject(GUID_PLAYER, this);
@@ -30,6 +35,25 @@ void Player::release()
 	//_image->release();
 }
 void Player::update()
+{
+	moveUpdate();
+	selectWeaponUpdate();
+	collisionUpdate();
+	imageFrameUpdate();
+
+	//플레이어 체온 자연 회복
+	if (TIMEMANAGER->addTimer("player health point up")->checkTime(100) && getHp() < 1)
+	{
+		setHp(getHp() + 0.005);
+	}
+
+	//이미지 위치 셋
+	_moveImage->setCenter(getX(), getY());
+	_stayImage->setCenter(getX(), getY());
+	_armImage->setCenter(getX(), getY());
+}
+
+void Player::moveUpdate()
 {
 	//플레이어 이동
 	if (KEYMANAGER->isStayKeyDown('A') && getRect().left > 0)
@@ -54,7 +78,18 @@ void Player::update()
 
 	//오브젝트 값에 따라 움직임
 	activate(GRAVITY_ACCEL);
+}
 
+void Player::selectWeaponUpdate()
+{
+	if (KEYMANAGER->isOnceKeyDown('1')) setWeapon(PLAYER_WEAPON_PISTOL);
+	if (KEYMANAGER->isOnceKeyDown('2')) setWeapon(PLAYER_WEAPON_SMG);
+	if (KEYMANAGER->isOnceKeyDown('3')) setWeapon(PLAYER_WEAPON_SNIPER);
+	if (KEYMANAGER->isOnceKeyDown('4')) setWeapon(PLAYER_WEAPON_WATERBOMB);
+}
+
+void Player::collisionUpdate()
+{
 	//바닥
 	if (getRect().bottom + getSpeedY() > STAGE_HEIGHT)
 	{
@@ -68,6 +103,9 @@ void Player::update()
 		setY(getHeight() / 2);
 	}
 
+}
+void Player::imageFrameUpdate()
+{
 	//표시 스프라이트 프레임
 	if (getX() > CAMERA->getMouseX())
 	{
@@ -89,18 +127,9 @@ void Player::update()
 	float armAngleR = myUtil::getGradeRadianByTwoPoint(getX(), getY(), CAMERA->getMouseX(), CAMERA->getMouseY());
 	int frame = ((myUtil::degreeFromRadian(armAngleR) + 15) / 360) * 14;
 	_armImage->setFrameX(frame);
-
-	//플레이어 체력 회복
-	if (TIMEMANAGER->addTimer("player health point up")->checkTime(100) && getHp() < 1)
-	{
-		setHp(getHp() + 0.005);
-	}
-
-	//이미지 위치 셋
-	_moveImage->setCenter(getX(), getY());
-	_stayImage->setCenter(getX(), getY());
-	_armImage->setCenter(getX(), getY());
 }
+
+
 void Player::render()
 {
 	if (_playerState == PLAYER_STATE_STAY)

@@ -8,7 +8,16 @@ public:
 		PLAYER_STATE_LEFT,
 		PLAYER_STATE_RIGHT,
 		PLAYER_STATE_STAY,
-		PLAYER_STATE_JUMP
+		PLAYER_STATE_JUMP,
+		PLAYER_STATE_DOWNJUMP
+	};
+
+	enum PLAYER_WEAPON
+	{
+		PLAYER_WEAPON_PISTOL = 1,
+		PLAYER_WEAPON_SMG,
+		PLAYER_WEAPON_SNIPER,
+		PLAYER_WEAPON_WATERBOMB
 	};
 private:
 	SpriteImage* _moveImage;
@@ -29,6 +38,11 @@ public:
 	void release();
 	void update();
 	void render();
+
+	void moveUpdate();
+	void selectWeaponUpdate();
+	void collisionUpdate();
+	void imageFrameUpdate();
 
 	void setHp(float hp){ _hp = hp; }
 	void setWater(float water){ _water = water; }
