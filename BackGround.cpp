@@ -40,6 +40,5 @@ void BackGround::render()
 		{
 			_image->render(CAMERA->getCameraDC(), (CAMERA->getX() - WIN_SIZE_X / 2) + (temp + _image->getWidth() * i), -_y);
 		}
-		printf("%f \n", temp);
 	}
 }

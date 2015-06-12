@@ -10,21 +10,29 @@ HRESULT GameStudy::initialize(void)
 
 	imageLoad();
 
-	_ui = new UI;
-	_ui->initialize();
-
-
 	//플레이어 매니저, 백그라운드, 지형 객체는 스테이지 객체에 있어야 함.
 	_playerManager = new PlayerManager;
 	_playerManager->initialize();
 	_bg = new BackGround;
 	_bg->initialize(true, false, IMAGEMANAGER->findImage("backMap"));
 
-	vector<RECT> v;
-
 	_land = new Land;
-	_land->initialize(v);
+	_land->initialize(IMAGEMANAGER->findImage("ground"));
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 200, 80);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 500, STAGE_HEIGHT - 350, 40);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 800, STAGE_HEIGHT - 500, 10);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 100, STAGE_HEIGHT - 600, 100);
+		
+	_campfire = new StageObject;
+	_campfire->initialize(IMAGEMANAGER->findImage("campfire")->getSpriteImage(6, 1), 100, 500, 40, 50);
+	OBJECTMANAGER->addObject(GUID_CAMPFIRE, _campfire);
 
+	_fountain = new StageObject;
+	_fountain->initialize(IMAGEMANAGER->findImage("fountain")->getSpriteImage(3, 1), 140, 500, 50, 66);
+	OBJECTMANAGER->addObject(GUID_FOUNTAIN, _fountain);
+
+	_ui = new UI;
+	_ui->initialize();
 	//ShowCursor(false);
 
 	return S_OK;
@@ -51,6 +59,25 @@ void GameStudy::update(void)
 	_bg->update();
 	_land->update();
 
+	_campfire->activate(GRAVITY_ACCEL);
+	Player* player = OBJECTMANAGER->findObject<Player>(GUID_PLAYER);
+	if (IntersectRect(&makeRect(0, 0, 0, 0), &_campfire->getRect(), &player->getRect()) &&
+		TIMEMANAGER->addTimer("player campfire hp")->checkTime(200))
+	{
+		player->setHp(player->getHp() + 0.05);
+	}
+
+	_fountain->activate(GRAVITY_ACCEL);
+	if (IntersectRect(&makeRect(0, 0, 0, 0), &_fountain->getRect(), &player->getRect()) &&
+		TIMEMANAGER->addTimer("player fountain water")->checkTime(200))
+	{
+		player->setWater(player->getWater() + 0.005);
+		if (player->getHp() > 0.2)
+		{
+			player->setHp(player->getHp() - 0.05);
+		}
+	}
+
 	EFFECTMANAGER->update();
 }
 
@@ -61,6 +88,8 @@ void GameStudy::render()
 
 	_bg->render();
 	_land->render();
+	_campfire->render(CAMERA->getCameraDC(), 100);
+	_fountain->render(CAMERA->getCameraDC(), 100);
 	_playerManager->render();
 
 	//이펙트 출력
@@ -98,5 +127,9 @@ void GameStudy::imageLoad()
 	IMAGEMANAGER->addImage("icon weapon sniper", "resource/sniper.bmp", 48, 48, TRUE, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("icon weapon bomb", "resource/bomb.bmp", 48, 48, TRUE, RGB(255, 0, 255));
 
-	IMAGEMANAGER->addImage("floor", "resource/floor.bmp", 512, 100);
+	IMAGEMANAGER->addImage("ground", "resource/ground.bmp", 512, 100);
+	IMAGEMANAGER->addImage("floor ground", "resource/floor_ground.bmp", 16, 16);
+
+	IMAGEMANAGER->addImage("campfire", "resource/campfire.bmp", 240, 50, TRUE, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("fountain", "resource/fountain.bmp", 150, 66, TRUE, RGB(255, 0, 255));
 }

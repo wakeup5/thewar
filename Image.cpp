@@ -243,8 +243,8 @@ void Image::alphaRender(HDC hdc, float destX, float destY, int sourX, int sourY,
 	if (_trans)
 	{
 		//알파블렌더에 문제가 있는듯. 화면 밖을 복사 하려면 안나옴.
-		if (destX + width > WIN_SIZE_X) width = WIN_SIZE_X - destX;
-		if (destY + height > WIN_SIZE_Y) height = WIN_SIZE_Y - destY;
+		if (destX + width > STAGE_WIDTH) width = STAGE_WIDTH - destX;
+		if (destY + height > STAGE_HEIGHT) height = STAGE_HEIGHT - destY;
 		if (destX < 0)
 		{
 			sourX -= destX;

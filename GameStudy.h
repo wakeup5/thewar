@@ -4,13 +4,16 @@
 #include "UI.h"
 #include "BackGround.h"
 #include "Land.h"
+#include "StageObject.h"
 
 class GameStudy : public GameNode
 {
 private:
 	UI* _ui;
-
 	PlayerManager* _playerManager;
+	StageObject* _campfire;
+	StageObject* _fountain;
+
 	BackGround* _bg;
 	Land* _land;
 public:

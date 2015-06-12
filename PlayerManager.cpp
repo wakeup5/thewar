@@ -35,19 +35,12 @@ void PlayerManager::update()
 		_player->setWater(1);
 	}
 
-	//Land 클래스로 옮겨야 함.
-	if (_player->getRect().bottom + _player->getSpeedY() > STAGE_HEIGHT - LAND_HEIGHT)
-	{
-		_player->setSpeedY(0);
-		_player->setY(STAGE_HEIGHT - LAND_HEIGHT - _player->getHeight() / 2);
-	}
-
 	_player->update();
 	_bullet->update();
 
 	//카메라 위치 스테이지 클래스로 옮겨야 함.
 	float x = _player->getX() + (CAMERA->getMouseX() - _player->getX()) * 0.3;
-	float y = _player->getY() + (CAMERA->getMouseY() - _player->getY() - 200) * 0.3;
+	float y = _player->getY() + (CAMERA->getMouseY() - _player->getY()) * 0.3;
 
 	CAMERA->setX(x);
 	CAMERA->setY(y);

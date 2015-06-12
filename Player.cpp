@@ -19,12 +19,12 @@ HRESULT Player::initialize()
 
 	_playerState = PLAYER_STATE_STAY;
 
-	_water = 1.0;
-	_hp = 1.0;
+	_water = 1.0f;
+	_hp = 0.0f;
 
 	_selectWeapon = Player::PLAYER_WEAPON_PISTOL;
 
-	GameObject::initialize(100, 100, 40, 40);
+	GameObject::initialize(100, STAGE_HEIGHT - LAND_HEIGHT, 40, 40);
 
 	OBJECTMANAGER->addObject(GUID_PLAYER, this);
 
@@ -71,11 +71,34 @@ void Player::moveUpdate()
 		_playerState = PLAYER_STATE_STAY;
 		_moveImage->setFrameX(0);
 	}
+
+	//점프
 	if (KEYMANAGER->isOnceKeyDown(VK_SPACE) && getSpeedY() == 0)
 	{
 		setSpeedY(-PLAYER_JUMP);
+		_playerJumpState = PLAYER_JUMP_STATE_START;
+		TIMEMANAGER->addTimer("player jump start")->checkTime(1);
 	}
-
+	//하향점프
+	if (KEYMANAGER->isOnceKeyDown('S') && getSpeedY() == 0)
+	{
+		setSpeedY(-GRAVITY_ACCEL);
+		_playerJumpState = PLAYER_JUMP_STATE_START;
+		TIMEMANAGER->addTimer("player jump start")->checkTime(1);
+	}
+	//점프 상태 - 점프 시작 : start, start 0.1초후 상승중 up, 하강중 down
+	if (TIMEMANAGER->addTimer("player jump start")->checkTime(100))
+	{
+		if (getSpeedY() >= 0)
+		{
+			_playerJumpState = PLAYER_JUMP_STATE_DOWN;
+		}
+		else
+		{
+			_playerJumpState = PLAYER_JUMP_STATE_UP;
+		}
+	}
+	
 	//오브젝트 값에 따라 움직임
 	activate(GRAVITY_ACCEL);
 }
