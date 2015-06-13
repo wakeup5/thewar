@@ -4,6 +4,7 @@
 
 Player::Player()
 {
+
 }
 
 
@@ -17,14 +18,13 @@ HRESULT Player::initialize()
 	_stayImage = IMAGEMANAGER->findImage("player stay")->getSpriteImage(1, 2);
 	_armImage = IMAGEMANAGER->findImage("player arm")->getSpriteImage(14, 1);
 
-	_playerState = PLAYER_STATE_STAY;
-
 	_water = 1.0f;
 	_hp = 0.0f;
 
 	_selectWeapon = Player::PLAYER_WEAPON_PISTOL;
 
 	GameObject::initialize(100, STAGE_HEIGHT - LAND_HEIGHT, 40, 40);
+	Unit::initialize();
 
 	OBJECTMANAGER->addObject(GUID_PLAYER, this);
 
@@ -56,48 +56,20 @@ void Player::update()
 void Player::moveUpdate()
 {
 	//플레이어 이동
-	if (KEYMANAGER->isStayKeyDown('A') && getRect().left > 0)
-	{
-		_playerState = PLAYER_STATE_LEFT;
-		setX(getX() - PLAYER_SPEED);
-	}
-	if (KEYMANAGER->isStayKeyDown('D') && getRect().right < STAGE_WIDTH)
-	{
-		_playerState = PLAYER_STATE_RIGHT;
-		setX(getX() + PLAYER_SPEED);
-	}
+	if (KEYMANAGER->isStayKeyDown('A') && getRect().left > 0) left(PLAYER_SPEED);
+	if (KEYMANAGER->isStayKeyDown('D') && getRect().right < STAGE_WIDTH) right(PLAYER_SPEED);
 	if (KEYMANAGER->isOnceKeyUp('D') || KEYMANAGER->isOnceKeyUp('A'))
 	{
-		_playerState = PLAYER_STATE_STAY;
+		stay();
 		_moveImage->setFrameX(0);
 	}
 
 	//점프
-	if (KEYMANAGER->isOnceKeyDown(VK_SPACE) && getSpeedY() == 0)
-	{
-		setSpeedY(-PLAYER_JUMP);
-		_playerJumpState = PLAYER_JUMP_STATE_START;
-		TIMEMANAGER->addTimer("player jump start")->checkTime(1);
-	}
+	if (KEYMANAGER->isOnceKeyDown(VK_SPACE) && getSpeedY() == 0) jump(PLAYER_JUMP);
 	//하향점프
-	if (KEYMANAGER->isOnceKeyDown('S') && getSpeedY() == 0)
-	{
-		setSpeedY(-GRAVITY_ACCEL);
-		_playerJumpState = PLAYER_JUMP_STATE_START;
-		TIMEMANAGER->addTimer("player jump start")->checkTime(1);
-	}
-	//점프 상태 - 점프 시작 : start, start 0.1초후 상승중 up, 하강중 down
-	if (TIMEMANAGER->addTimer("player jump start")->checkTime(100))
-	{
-		if (getSpeedY() >= 0)
-		{
-			_playerJumpState = PLAYER_JUMP_STATE_DOWN;
-		}
-		else
-		{
-			_playerJumpState = PLAYER_JUMP_STATE_UP;
-		}
-	}
+	if (KEYMANAGER->isOnceKeyDown('S') && getSpeedY() == 0) downJump();
+	//유닛 업데이트
+	Unit::update();
 	
 	//오브젝트 값에 따라 움직임
 	activate(GRAVITY_ACCEL);
@@ -141,7 +113,7 @@ void Player::imageFrameUpdate()
 		_stayImage->setFrameY(1);
 	}
 
-	if (_playerState == PLAYER_STATE_RIGHT || _playerState == PLAYER_STATE_LEFT)
+	if (getState() == Unit::UNIT_MOVE_LEFT || getState() == Unit::UNIT_MOVE_RIGHT)
 	{
 		_moveImage->nextFrameX(150);
 	}
@@ -155,7 +127,7 @@ void Player::imageFrameUpdate()
 
 void Player::render()
 {
-	if (_playerState == PLAYER_STATE_STAY)
+	if (getState() == Unit::UNIT_STAY)
 	{
 		_stayImage->render(CAMERA->getCameraDC());
 	}

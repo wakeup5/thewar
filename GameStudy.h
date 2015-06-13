@@ -5,6 +5,7 @@
 #include "BackGround.h"
 #include "Land.h"
 #include "StageObject.h"
+#include "Enemy.h"
 
 class GameStudy : public GameNode
 {
@@ -16,6 +17,8 @@ private:
 
 	BackGround* _bg;
 	Land* _land;
+
+	Enemy* _enemy;
 public:
 	GameStudy(){}
 	virtual ~GameStudy(){}

@@ -35,6 +35,9 @@ HRESULT GameStudy::initialize(void)
 	_ui->initialize();
 	//ShowCursor(false);
 
+	_enemy = new Enemy;
+	_enemy->initialize();
+
 	return S_OK;
 }
 
@@ -47,6 +50,8 @@ void GameStudy::release(void)
 	_playerManager->release();
 	_bg->release();
 	_land->release();
+
+
 }
 
 //화면갱신
@@ -58,6 +63,8 @@ void GameStudy::update(void)
 	_ui->update();
 	_bg->update();
 	_land->update();
+
+	_enemy->update();
 
 	_campfire->activate(GRAVITY_ACCEL);
 	Player* player = OBJECTMANAGER->findObject<Player>(GUID_PLAYER);
@@ -91,6 +98,8 @@ void GameStudy::render()
 	_campfire->render(CAMERA->getCameraDC(), 100);
 	_fountain->render(CAMERA->getCameraDC(), 100);
 	_playerManager->render();
+
+	_enemy->render();
 
 	//이펙트 출력
 	EFFECTMANAGER->render(CAMERA->getCameraDC());
@@ -131,5 +140,8 @@ void GameStudy::imageLoad()
 	IMAGEMANAGER->addImage("floor ground", "resource/floor_ground.bmp", 16, 16);
 
 	IMAGEMANAGER->addImage("campfire", "resource/campfire.bmp", 240, 50, TRUE, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("fountain", "resource/fountain.bmp", 150, 66, TRUE, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("fountain", "resource/fountain.bmp", 150, 66, TRUE, RGB(255, 0, 255)); 
+	
+	IMAGEMANAGER->addImage("enemy move", "resource/enemy_move.bmp", 160, 150, TRUE, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("enemy shoot", "resource/enemy_shoot.bmp", 400, 100, TRUE, RGB(255, 0, 255));
 }

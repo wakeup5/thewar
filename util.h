@@ -19,6 +19,7 @@ namespace myUtil
 
 	/// 두개의 좌표를 받아 기울기의 라디안 각도를 반환
 	float getGradeRadianByTwoPoint(float x1, float y1, float x2, float y2);
+	float getGradeDegreeByTwoPoint(float x1, float y1, float x2, float y2);
 
 	//라디안 각도를 디그리 각도로 변환
 	float degreeFromRadian(float radian);

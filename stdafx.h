@@ -85,6 +85,9 @@
 
 #define PLAYER_SPEED	5
 #define PLAYER_JUMP		7	
+
+#define ENEMY_SPEED		3
+#define ENEMY_JUMP		7
 //게임 상수 end
 
 //안전 동적할당 해제 매크로

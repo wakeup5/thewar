@@ -51,7 +51,7 @@ void Land::update()
 
 	//층과 플레이어 충돌처리
 	RECT* r = collisionLand(player->getRect());
-	if (r != NULL && player->getJumpState() == Player::PLAYER_JUMP_STATE_DOWN)
+	if (r != NULL && player->getJumpState() == Unit::UNIT_JUMP_DOWN)
 	{
 		player->setSpeedY(0);
 		player->setY(r->top - player->getHeight() / 2);
@@ -92,7 +92,7 @@ RECT* Land::collisionLand(RECT oRect)
 {
 	vector<RectImage>::iterator viLand;
 	RECT r;
-	oRect.top = oRect.bottom - 5;
+	oRect.top = oRect.bottom - 10;
 	oRect.bottom += 1;
 	for (viLand = _vLand.begin(); viLand != _vLand.end(); viLand++)
 	{

@@ -108,18 +108,19 @@ bool TimeManager::checkTime(std::string key, float time)
 
 	if (timer == NULL)
 	{
-		return false;
+		timer = addTimer();
 	}
 
 	return timer->checkTime(time);
 }
+
 bool TimeManager::checkFPS(std::string key, int fps)
 {
 	TimeManager::CheckTimer* timer = findTimer(key);
 
 	if (timer == NULL)
 	{
-		return false;
+		timer = addTimer();
 	}
 
 	return timer->checkFPS(fps);
