@@ -242,9 +242,12 @@ void Image::alphaRender(HDC hdc, float destX, float destY, int sourX, int sourY,
 	//투명처리를 할 경우
 	if (_trans)
 	{
+		BITMAP hdcBitmap;
+		GetObject(GetCurrentObject(hdc, OBJ_BITMAP), sizeof(BITMAP), &hdcBitmap);
+
 		//알파블렌더에 문제가 있는듯. 화면 밖을 복사 하려면 안나옴.
-		if (destX + width > STAGE_WIDTH) width = STAGE_WIDTH - destX;
-		if (destY + height > STAGE_HEIGHT) height = STAGE_HEIGHT - destY;
+		if (destX + width > hdcBitmap.bmWidth) width = hdcBitmap.bmWidth - destX;
+		if (destY + height > hdcBitmap.bmHeight) height = hdcBitmap.bmHeight - destY;
 		if (destX < 0)
 		{
 			sourX -= destX;

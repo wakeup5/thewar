@@ -7,9 +7,15 @@ private:
 	SpriteImage* _attackImage;
 
 	CheckTimer* _actionTimer;
+	CheckTimer* _fireTimer;
+
 	int _actionNum;
 
 	float _attackAngle;
+
+	float _hp;
+
+	Bullet* _bullet;
 public:
 	Enemy();
 	~Enemy();
@@ -22,5 +28,8 @@ public:
 	void attack();
 
 	void imageFrameUpdate();
+
+	void setHp(float hp){ _hp = hp; }
+	float getHp(){ return _hp; }
 };
 

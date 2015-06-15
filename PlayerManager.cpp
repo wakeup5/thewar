@@ -15,9 +15,11 @@ HRESULT PlayerManager::initialize()
 {
 	_player = new Player;
 	_player->initialize();
+	OBJECTMANAGER->addObject(GUID_PLAYER, _player);
 
 	_bullet = new Bullet;
 	_bullet->initialize(1000);
+	OBJECTMANAGER->addObject(GUID_PLAYER_BULLET, _bullet);
 
 	return S_OK;
 }
@@ -29,7 +31,9 @@ void PlayerManager::release()
 void PlayerManager::update()
 {
 	playerFireUpdate();
+	collisionEnemyBullet();
 
+	//ġƮ
 	if (KEYMANAGER->isOnceKeyDown('0'))
 	{
 		_player->setWater(1);
@@ -81,6 +85,26 @@ void PlayerManager::playerFireUpdate()
 				_player->setWater(_player->getWater() - 0.05);
 			}
 			break;
+		}
+	}
+}
+
+void PlayerManager::collisionEnemyBullet()
+{
+	Bullet::LBullet* enemyBullet = OBJECTMANAGER->findObject<Bullet>(GUID_ENEMY_BULLET)->getBullet();
+	RECT r;
+	for (Bullet::LIBullet liBullet = enemyBullet->begin(); liBullet != enemyBullet->end();)
+	{
+		if (IntersectRect(&r, &(*liBullet)->getRect(), &_player->getRect()))
+		{
+			_player->setHp(_player->getHp() - 0.05);
+			EFFECTMANAGER->addEffect(
+				IMAGEMANAGER->findImage("water ball pop")->getSpriteImage((*liBullet)->getX(), (*liBullet)->getY(), 4, 1));
+			liBullet = enemyBullet->erase(liBullet);
+		}
+		else
+		{
+			liBullet++;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "GameNode.h"
+#include "StageObject.h"
 
 typedef struct tagRectImage
 {
@@ -23,7 +24,12 @@ public:
 	void update();
 	void render();
 
-	RECT* collisionLand(RECT);
+	const RECT* collisionLand(RECT);
+	void collisionByStageObject(StageObject*);
+	void collisionByUnit(Unit*);
+
+	void collisionFloor(GameObject*);
+
 	void addFloor(RectImage);
 	void addFloors(Image* image, int sizeX, int sizeY, int startX, int startY, int num);
 };

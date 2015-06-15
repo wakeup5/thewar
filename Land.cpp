@@ -26,51 +26,22 @@ void Land::release()
 void Land::update()
 {
 	Player* player = OBJECTMANAGER->findObject<Player>(GUID_PLAYER);
-	//Land 클래스로 옮겨야 함. 플레이어 바닥 충돌 처리
-	if (player->getRect().bottom + player->getSpeedY() > STAGE_HEIGHT - LAND_HEIGHT)
-	{
-		player->setSpeedY(0);
-		player->setY(STAGE_HEIGHT - LAND_HEIGHT - player->getHeight() / 2);
-	}
-
 	StageObject* campfire = OBJECTMANAGER->findObject<StageObject>(GUID_CAMPFIRE);
-	//캠프파이어 바닥 충돌 처리
-	if (campfire->getRect().bottom + campfire->getSpeedY() > STAGE_HEIGHT - LAND_HEIGHT)
-	{
-		campfire->setSpeedY(0);
-		campfire->setY(STAGE_HEIGHT - LAND_HEIGHT - campfire->getHeight() / 2);
-	}
-
 	StageObject* fountain = OBJECTMANAGER->findObject<StageObject>(GUID_FOUNTAIN);
-	//분수 바닥 충돌 처리
-	if (fountain->getRect().bottom + fountain->getSpeedY() > STAGE_HEIGHT - LAND_HEIGHT)
-	{
-		fountain->setSpeedY(0);
-		fountain->setY(STAGE_HEIGHT - LAND_HEIGHT - fountain->getHeight() / 2);
-	}
+	VEnemy* vEnemy = OBJECTMANAGER->findObject<VEnemy>(GUID_ENEMYS);
 
-	//층과 플레이어 충돌처리
-	RECT* r = collisionLand(player->getRect());
-	if (r != NULL && player->getJumpState() == Unit::UNIT_JUMP_DOWN)
-	{
-		player->setSpeedY(0);
-		player->setY(r->top - player->getHeight() / 2);
-	}
+	collisionFloor(player);
+	collisionByUnit(player);
 
-	//층과 캠프파이어 충돌처리
-	r = collisionLand(campfire->getRect());
-	if (r != NULL)
-	{
-		campfire->setSpeedY(0);
-		campfire->setY(r->top - campfire->getHeight() / 2);
-	}
+	collisionFloor(campfire);
+	collisionByStageObject(campfire);
+	collisionFloor(fountain);
+	collisionByStageObject(fountain);
 
-	//층과 분수 충돌처리
-	r = collisionLand(fountain->getRect());
-	if (r != NULL)
+	for (VIEnemy viEnemy = vEnemy->begin(); viEnemy != vEnemy->end(); viEnemy++)
 	{
-		fountain->setSpeedY(0);
-		fountain->setY(r->top - fountain->getHeight() / 2);
+		collisionFloor(*viEnemy);
+		collisionByUnit(*viEnemy);
 	}
 }
 void Land::render()
@@ -88,12 +59,21 @@ void Land::render()
 	}
 }
 
-RECT* Land::collisionLand(RECT oRect)
+const RECT* Land::collisionLand(RECT oRect)
 {
 	vector<RectImage>::iterator viLand;
 	RECT r;
 	oRect.top = oRect.bottom - 10;
 	oRect.bottom += 1;
+
+	for (int i = 0; i < _vLand.size(); i++)
+	{
+		if (IntersectRect(&r, &_vLand[i].r, &oRect))
+		{
+			return &_vLand[i].r;
+		}
+	}
+	/*
 	for (viLand = _vLand.begin(); viLand != _vLand.end(); viLand++)
 	{
 		if (IntersectRect(&r, &viLand->r, &oRect))
@@ -101,8 +81,38 @@ RECT* Land::collisionLand(RECT oRect)
 			return &viLand->r;
 		}
 	}
+	*/
 
 	return NULL;
+}
+
+void Land::collisionByStageObject(StageObject* object)
+{
+	const RECT* r = collisionLand(object->getRect());
+	if (r != NULL)
+	{
+		object->setSpeedY(0);
+		object->setY(r->top - object->getHeight() / 2);
+	}
+}
+
+void Land::collisionByUnit(Unit* unit)
+{
+	const RECT* r = collisionLand(unit->getRect());
+	if (r != NULL && unit->getJumpState() == Unit::UNIT_JUMP_DOWN)
+	{
+		unit->setSpeedY(0);
+		unit->setY(r->top - unit->getHeight() / 2);
+	}
+}
+
+void Land::collisionFloor(GameObject* object)
+{
+	if (object->getRect().bottom + object->getSpeedY() > STAGE_HEIGHT - LAND_HEIGHT)
+	{
+		object->setSpeedY(0);
+		object->setY(STAGE_HEIGHT - LAND_HEIGHT - object->getHeight() / 2);
+	}
 }
 
 void Land::addFloor(RectImage ri)

@@ -13,8 +13,8 @@ private:
 		}
 	};
 
-	typedef std::map<GUID, GameNode*, GUIDComparer> MNode;
-	typedef std::map<GUID, GameNode*, GUIDComparer>::iterator MINode;
+	typedef std::map<GUID, void*, GUIDComparer> MNode;
+	typedef std::map<GUID, void*, GUIDComparer>::iterator MINode;
 
 	MNode _mNode;
 	MINode _miNode;
@@ -27,7 +27,17 @@ public:
 	void release();
 	
 	bool removeObject(GUID id);
-	GameNode* addObject(GUID id, GameNode * node);
+
+	template <typename T>
+	T* addObject(GUID id, T* node)
+	{
+		if (node)
+		{
+			_mNode.insert(std::make_pair(id, node));
+		}
+
+		return node;
+	}
 
 	template <typename T>
 	T* findObject(GUID id)

@@ -42,6 +42,8 @@ public:
 	void render();
 
 	void fire(float x, float y, float angleR, float speed, SpriteImage* spriteImage);
+
+	LBullet* getBullet(){ return &_lBullet; }
 };
 
 typedef Bullet::BulletObject OBullet;

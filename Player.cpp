@@ -26,8 +26,6 @@ HRESULT Player::initialize()
 	GameObject::initialize(100, STAGE_HEIGHT - LAND_HEIGHT, 40, 40);
 	Unit::initialize();
 
-	OBJECTMANAGER->addObject(GUID_PLAYER, this);
-
 	return S_OK;
 }
 void Player::release()
@@ -78,9 +76,9 @@ void Player::moveUpdate()
 void Player::selectWeaponUpdate()
 {
 	if (KEYMANAGER->isOnceKeyDown('1')) setWeapon(PLAYER_WEAPON_PISTOL);
-	if (KEYMANAGER->isOnceKeyDown('2')) setWeapon(PLAYER_WEAPON_SMG);
-	if (KEYMANAGER->isOnceKeyDown('3')) setWeapon(PLAYER_WEAPON_SNIPER);
-	if (KEYMANAGER->isOnceKeyDown('4')) setWeapon(PLAYER_WEAPON_WATERBOMB);
+	else if (KEYMANAGER->isOnceKeyDown('2')) setWeapon(PLAYER_WEAPON_SMG);
+	else if (KEYMANAGER->isOnceKeyDown('3')) setWeapon(PLAYER_WEAPON_SNIPER);
+	else if (KEYMANAGER->isOnceKeyDown('4')) setWeapon(PLAYER_WEAPON_WATERBOMB);
 }
 
 void Player::collisionUpdate()
@@ -92,11 +90,13 @@ void Player::collisionUpdate()
 		setY(STAGE_HEIGHT - getHeight() / 2);
 	}
 	//√µ¿Â
+	/*
 	if (getRect().top + getSpeedY() < 0)
 	{
 		setSpeedY(-getSpeedY() * 0.5);
 		setY(getHeight() / 2);
 	}
+	*/
 
 }
 void Player::imageFrameUpdate()

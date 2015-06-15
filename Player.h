@@ -35,8 +35,18 @@ public:
 	void collisionUpdate();
 	void imageFrameUpdate();
 
-	void setHp(float hp){ _hp = hp; if (_hp > 1.0f) _hp = 1.0f; }
-	void setWater(float water){ _water = water; if (_water > 1.0f) _water = 1.0f; }
+	void setHp(float hp)
+	{ 
+		_hp = hp; 
+		if (_hp > 1.0f) _hp = 1.0f;
+		if (_hp < 0.0f) _hp = 0.001f;
+	}
+	void setWater(float water)
+	{
+		_water = water; 
+		if (_water > 1.0f) _water = 1.0f; 
+		if (_water < 0.0f) _water = 0.001f;
+	}
 	void setWeapon(int weapon){ _selectWeapon = weapon; }
 
 	float getHp(){ return _hp; }

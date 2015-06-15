@@ -1,24 +1,18 @@
 #pragma once
 #include "GameNode.h"
 #include "PlayerManager.h"
+#include "EnemyManager.h"
 #include "UI.h"
 #include "BackGround.h"
 #include "Land.h"
 #include "StageObject.h"
-#include "Enemy.h"
+#include "StageManager.h"
 
 class GameStudy : public GameNode
 {
 private:
 	UI* _ui;
-	PlayerManager* _playerManager;
-	StageObject* _campfire;
-	StageObject* _fountain;
-
-	BackGround* _bg;
-	Land* _land;
-
-	Enemy* _enemy;
+	StageManager* _stageManager;
 public:
 	GameStudy(){}
 	virtual ~GameStudy(){}

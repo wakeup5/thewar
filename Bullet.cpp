@@ -17,6 +17,8 @@ HRESULT OBullet::initialize(float x, float y, float angleR, float speed, SpriteI
 	setX(x);
 	setY(y);
 
+	setSize(spriteImage->getFrameWidth(), spriteImage->getFrameHeight());
+
 	return S_OK;
 }
 void OBullet::release()

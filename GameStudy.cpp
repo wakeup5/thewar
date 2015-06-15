@@ -10,33 +10,12 @@ HRESULT GameStudy::initialize(void)
 
 	imageLoad();
 
-	//플레이어 매니저, 백그라운드, 지형 객체는 스테이지 객체에 있어야 함.
-	_playerManager = new PlayerManager;
-	_playerManager->initialize();
-	_bg = new BackGround;
-	_bg->initialize(true, false, IMAGEMANAGER->findImage("backMap"));
-
-	_land = new Land;
-	_land->initialize(IMAGEMANAGER->findImage("ground"));
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 200, 80);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 500, STAGE_HEIGHT - 350, 40);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 800, STAGE_HEIGHT - 500, 10);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 100, STAGE_HEIGHT - 600, 100);
-		
-	_campfire = new StageObject;
-	_campfire->initialize(IMAGEMANAGER->findImage("campfire")->getSpriteImage(6, 1), 100, 500, 40, 50);
-	OBJECTMANAGER->addObject(GUID_CAMPFIRE, _campfire);
-
-	_fountain = new StageObject;
-	_fountain->initialize(IMAGEMANAGER->findImage("fountain")->getSpriteImage(3, 1), 140, 500, 50, 66);
-	OBJECTMANAGER->addObject(GUID_FOUNTAIN, _fountain);
+	_stageManager = new StageManager;
+	_stageManager->initialize();
 
 	_ui = new UI;
 	_ui->initialize();
 	//ShowCursor(false);
-
-	_enemy = new Enemy;
-	_enemy->initialize();
 
 	return S_OK;
 }
@@ -47,11 +26,7 @@ void GameStudy::release(void)
 	GameNode::release();
 	_ui->release();
 
-	_playerManager->release();
-	_bg->release();
-	_land->release();
-
-
+	_stageManager->release();
 }
 
 //화면갱신
@@ -59,31 +34,9 @@ void GameStudy::update(void)
 {
 	GameNode::update();
 
-	_playerManager->update();
+	_stageManager->update();
+
 	_ui->update();
-	_bg->update();
-	_land->update();
-
-	_enemy->update();
-
-	_campfire->activate(GRAVITY_ACCEL);
-	Player* player = OBJECTMANAGER->findObject<Player>(GUID_PLAYER);
-	if (IntersectRect(&makeRect(0, 0, 0, 0), &_campfire->getRect(), &player->getRect()) &&
-		TIMEMANAGER->addTimer("player campfire hp")->checkTime(200))
-	{
-		player->setHp(player->getHp() + 0.05);
-	}
-
-	_fountain->activate(GRAVITY_ACCEL);
-	if (IntersectRect(&makeRect(0, 0, 0, 0), &_fountain->getRect(), &player->getRect()) &&
-		TIMEMANAGER->addTimer("player fountain water")->checkTime(200))
-	{
-		player->setWater(player->getWater() + 0.005);
-		if (player->getHp() > 0.2)
-		{
-			player->setHp(player->getHp() - 0.05);
-		}
-	}
 
 	EFFECTMANAGER->update();
 }
@@ -93,14 +46,8 @@ void GameStudy::render()
 {
 	IMAGEMANAGER->render("mapImage", CAMERA->getCameraDC());
 
-	_bg->render();
-	_land->render();
-	_campfire->render(CAMERA->getCameraDC(), 100);
-	_fountain->render(CAMERA->getCameraDC(), 100);
-	_playerManager->render();
-
-	_enemy->render();
-
+	_stageManager->render();
+	
 	//이펙트 출력
 	EFFECTMANAGER->render(CAMERA->getCameraDC());
 	//카메라dc 출력

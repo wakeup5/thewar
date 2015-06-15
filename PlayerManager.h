@@ -18,5 +18,6 @@ public:
 	void render();
 
 	void playerFireUpdate();
+	void collisionEnemyBullet();
 };
 
