@@ -28,6 +28,17 @@ HRESULT StageManager::initialize()
 	_stageNum = 0;
 	_isStageInit = false;
 	_isCameraFromPlayer = true;
+	_needKillNum = 0;
+
+	_campfire = new StageObject;
+	OBJECTMANAGER->addObject(GUID_CAMPFIRE, _campfire);
+
+	_fountain = new StageObject;
+	OBJECTMANAGER->addObject(GUID_FOUNTAIN, _fountain);
+
+	_bg = new BackGround;
+	_bg->initialize(true, false, IMAGEMANAGER->findImage("backMap"));
+
 
 	//stage1();
 
@@ -61,7 +72,7 @@ void StageManager::update()
 		_stage->update();
 
 		_enemyManager->update();
-		if (TIMEMANAGER->addTimer("enemy create timer")->checkTime(2000) && _enemyManager->size() < 20)
+		if (TIMEMANAGER->addTimer("enemy create timer")->checkTime(2000) && _enemyManager->size() <= _ui->getKillNum())
 		{
 			_enemyManager->addEnemy(STAGE_WIDTH, STAGE_HEIGHT - LAND_HEIGHT);
 			_enemyManager->addEnemy(0, STAGE_HEIGHT - LAND_HEIGHT);
@@ -76,11 +87,40 @@ void StageManager::update()
 		{
 			stage1();
 		}
+
+		if (_stageNum == 1)
+		{
+			stage2();
+		}
+
+		if (_stageNum == 2)
+		{
+			stage3();
+		}
+
+		if (_stageNum == 3)
+		{
+			stage4();
+		}
+
+		if (_stageNum == 4)
+		{
+			stage5();
+		}
+	}
+
+	if (_isStageInit && _ui->getKillNum() <= 0)
+	{
+		_isStageInit = false;
+		_stageNum++;
 	}
 }
 void StageManager::render()
 {
-	if (_stage != NULL) _stage->render();
+	if (_stage != NULL)
+	{
+		_stage->render();
+	}
 
 	if (!_isStageInit)
 	{
@@ -96,9 +136,6 @@ void StageManager::render()
 
 void StageManager::stage1()
 {
-	_bg = new BackGround;
-	_bg->initialize(true, false, IMAGEMANAGER->findImage("backMap"));
-
 	_land = new Land;
 	_land->initialize(IMAGEMANAGER->findImage("ground"));
 	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 200, 75);
@@ -106,13 +143,8 @@ void StageManager::stage1()
 	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 400, STAGE_HEIGHT - 500, 50);
 	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 600, STAGE_HEIGHT - 650, 25);
 
-	_campfire = new StageObject;
 	_campfire->initialize(IMAGEMANAGER->findImage("campfire")->getSpriteImage(6, 1), STAGE_WIDTH / 2 - 50, 0, 40, 50);
-	OBJECTMANAGER->addObject(GUID_CAMPFIRE, _campfire);
-
-	_fountain = new StageObject;
 	_fountain->initialize(IMAGEMANAGER->findImage("fountain")->getSpriteImage(3, 1), STAGE_WIDTH / 2 + 50, 0, 50, 66);
-	OBJECTMANAGER->addObject(GUID_FOUNTAIN, _fountain);
 
 	_stage = new Stage;
 	_stage->initialize(_bg, _land, _campfire, _fountain);
@@ -124,6 +156,139 @@ void StageManager::stage1()
 	_playerManager->getQueen()->setSpeed(0);
 
 	_ui->setView(true);
+	_ui->setKillNum(20);
+
+	_isStageInit = true;
+}
+
+void StageManager::stage2()
+{
+	SAFE_DELETE(_land);
+	SAFE_DELETE(_stage);
+
+	_land = new Land;
+	_land->initialize(IMAGEMANAGER->findImage("ground"));
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 200, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 350, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 500, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 650, 75);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 200, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 350, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 500, 25);
+
+	_campfire->initialize(IMAGEMANAGER->findImage("campfire")->getSpriteImage(6, 1), STAGE_WIDTH / 2 - 50, 0, 40, 50);
+	_fountain->initialize(IMAGEMANAGER->findImage("fountain")->getSpriteImage(3, 1), STAGE_WIDTH / 2 + 50, 0, 50, 66);
+
+	_stage = new Stage;
+	_stage->initialize(_bg, _land, _campfire, _fountain);
+
+	_playerManager->getPlayer()->initialize();
+	_playerManager->getPlayer()->setPosition(STAGE_WIDTH / 2, STAGE_HEIGHT - 300);
+	_playerManager->getQueen()->initialize();
+	_playerManager->getQueen()->setPosition(STAGE_WIDTH / 2, 0);
+	_playerManager->getQueen()->setSpeed(0);
+
+	_ui->setView(true);
+	_ui->setKillNum(30);
+
+	_isStageInit = true;
+}
+
+void StageManager::stage3()
+{
+	SAFE_DELETE(_land);
+	SAFE_DELETE(_stage);
+
+	_land = new Land;
+	_land->initialize(IMAGEMANAGER->findImage("ground"));
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 200, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 350, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 500, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 650, 75);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 200, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 350, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 500, 25);
+
+	_campfire->initialize(IMAGEMANAGER->findImage("campfire")->getSpriteImage(6, 1), STAGE_WIDTH / 2 - 50, 0, 40, 50);
+	_fountain->initialize(IMAGEMANAGER->findImage("fountain")->getSpriteImage(3, 1), STAGE_WIDTH / 2 + 50, 0, 50, 66);
+
+	_stage = new Stage;
+	_stage->initialize(_bg, _land, _campfire, _fountain);
+
+	_playerManager->getPlayer()->initialize();
+	_playerManager->getPlayer()->setPosition(STAGE_WIDTH / 2, STAGE_HEIGHT - 300);
+	_playerManager->getQueen()->initialize();
+	_playerManager->getQueen()->setPosition(STAGE_WIDTH / 2, 0);
+	_playerManager->getQueen()->setSpeed(0);
+
+	_ui->setView(true);
+	_ui->setKillNum(40);
+
+	_isStageInit = true;
+}
+
+void StageManager::stage4()
+{
+	SAFE_DELETE(_land);
+	SAFE_DELETE(_stage);
+
+	_land = new Land;
+	_land->initialize(IMAGEMANAGER->findImage("ground"));
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 200, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 350, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 500, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 650, 75);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 200, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 350, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 500, 25);
+
+	_campfire->initialize(IMAGEMANAGER->findImage("campfire")->getSpriteImage(6, 1), STAGE_WIDTH / 2 - 50, 0, 40, 50);
+	_fountain->initialize(IMAGEMANAGER->findImage("fountain")->getSpriteImage(3, 1), STAGE_WIDTH / 2 + 50, 0, 50, 66);
+
+	_stage = new Stage;
+	_stage->initialize(_bg, _land, _campfire, _fountain);
+
+	_playerManager->getPlayer()->initialize();
+	_playerManager->getPlayer()->setPosition(STAGE_WIDTH / 2, STAGE_HEIGHT - 300);
+	_playerManager->getQueen()->initialize();
+	_playerManager->getQueen()->setPosition(STAGE_WIDTH / 2, 0);
+	_playerManager->getQueen()->setSpeed(0);
+
+	_ui->setView(true);
+	_ui->setKillNum(50);
+
+	_isStageInit = true;
+}
+
+void StageManager::stage5()
+{
+	SAFE_DELETE(_land);
+	SAFE_DELETE(_stage);
+
+	_land = new Land;
+	_land->initialize(IMAGEMANAGER->findImage("ground"));
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 200, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 350, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 500, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 650, 75);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 200, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 350, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 500, 25);
+
+	_campfire->initialize(IMAGEMANAGER->findImage("campfire")->getSpriteImage(6, 1), STAGE_WIDTH / 2 - 50, 0, 40, 50);
+	_fountain->initialize(IMAGEMANAGER->findImage("fountain")->getSpriteImage(3, 1), STAGE_WIDTH / 2 + 50, 0, 50, 66);
+
+	_stage = new Stage;
+	_stage->initialize(_bg, _land, _campfire, _fountain);
+
+	_playerManager->getPlayer()->initialize();
+	_playerManager->getPlayer()->setPosition(STAGE_WIDTH / 2, STAGE_HEIGHT - 300);
+	_playerManager->getQueen()->initialize();
+	_playerManager->getQueen()->setPosition(STAGE_WIDTH / 2, 0);
+	_playerManager->getQueen()->setSpeed(0);
+
+	_ui->setView(true);
+	_ui->setKillNum(60);
 
 	_isStageInit = true;
 }

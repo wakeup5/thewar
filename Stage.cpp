@@ -21,6 +21,8 @@ HRESULT Stage::initialize(BackGround* bg, Land* land, StageObject* campfire, Sta
 	_player = OBJECTMANAGER->findObject<Player>(GUID_PLAYER);
 	_vEnemy = OBJECTMANAGER->findObject<VEnemy>(GUID_ENEMYS);
 
+	_needKillNum = 0;
+
 	return S_OK;
 }
 void Stage::release()
@@ -49,7 +51,6 @@ void Stage::update()
 			_player->setHp(_player->getHp() - 0.005);
 		}
 	}
-
 }
 void Stage::render()
 {

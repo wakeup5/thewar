@@ -31,6 +31,7 @@ void EnemyManager::release()
 void EnemyManager::update()
 {
 	Bullet::LBullet* playerBullet = OBJECTMANAGER->findObject<Bullet>(GUID_PLAYER_BULLET)->getBullet();
+	UI* ui = OBJECTMANAGER->findObject<UI>(GUID_UI);
 	RECT r;
 	for (_viEnemy = _vEnemy->begin(); _viEnemy != _vEnemy->end();)
 	{
@@ -46,7 +47,6 @@ void EnemyManager::update()
 				EFFECTMANAGER->addEffect(IMAGEMANAGER->findImage("water ball pop")->getSpriteImage((*liBullet)->getX(), (*liBullet)->getY(), 4, 1));
 
 				liBullet = playerBullet->erase(liBullet);
-
 			}
 			else
 			{
@@ -56,6 +56,7 @@ void EnemyManager::update()
 
 		if ((*_viEnemy)->getHp() <= 0)
 		{
+			ui->setKillNum(ui->getKillNum() - 1);
 			_viEnemy = _vEnemy->erase(_viEnemy);
 		}
 		else

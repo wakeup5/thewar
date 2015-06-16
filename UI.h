@@ -8,6 +8,7 @@ private:
 	Image* _waterBar;
 
 	bool _render;
+	int _killNum;
 public:
 	UI();
 	~UI();
@@ -18,5 +19,8 @@ public:
 	void render(HDC bufferDC);
 
 	void setView(bool t){ _render = t; }
+
+	void setKillNum(int num){ _killNum = num; }
+	int getKillNum(){ return _killNum; }
 };
 

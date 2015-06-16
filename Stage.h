@@ -11,6 +11,8 @@ private:
 
 	Player* _player;
 	VEnemy* _vEnemy;
+
+	int _needKillNum;
 public:
 	Stage();
 	~Stage();
@@ -19,5 +21,8 @@ public:
 	void release();
 	void update();
 	void render();
+
+	void setKillNum(int num){ _needKillNum = num; }
+	int getKillNum(){ return _needKillNum; }
 };
 
