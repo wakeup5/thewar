@@ -17,11 +17,19 @@ HRESULT StageManager::initialize()
 	//플레이어 매니저, 백그라운드, 지형 객체는 스테이지 객체에 있어야 함.
 	_playerManager = new PlayerManager;
 	_playerManager->initialize();
+	_playerManager->getPlayer()->setPosition(STAGE_WIDTH / 2, 0);
 
 	_enemyManager = new EnemyManager;
 	_enemyManager->initialize();
 
-	stage1();
+	_ui = OBJECTMANAGER->findObject<UI>(GUID_UI);
+	_ui->setView(false);
+
+	_stageNum = 0;
+	_isStageInit = false;
+	_isCameraFromPlayer = true;
+
+	//stage1();
 
 	return S_OK;
 }
@@ -38,20 +46,49 @@ void StageManager::release()
 }
 void StageManager::update()
 {
-	if (_stage != NULL) _stage->update();
+	if (_isCameraFromPlayer)
+	{
+		//카메라 위치 스테이지 클래스로 옮겨야 함.
+		float x = _playerManager->getPlayer()->getX() + (CAMERA->getMouseX() - _playerManager->getPlayer()->getX()) * 0.3;
+		float y = _playerManager->getPlayer()->getY() + (CAMERA->getMouseY() - _playerManager->getPlayer()->getY()) * 0.3;
+
+		CAMERA->setX(x);
+		CAMERA->setY(y);
+	}
+
+	if (_stage != NULL)
+	{
+		_stage->update();
+
+		_enemyManager->update();
+		if (TIMEMANAGER->addTimer("enemy create timer")->checkTime(2000) && _enemyManager->size() < 20)
+		{
+			_enemyManager->addEnemy(STAGE_WIDTH, STAGE_HEIGHT - LAND_HEIGHT);
+			_enemyManager->addEnemy(0, STAGE_HEIGHT - LAND_HEIGHT);
+		}
+	}
 
 	_playerManager->update();
-	_enemyManager->update();
 
-	if (TIMEMANAGER->addTimer("enemy create timer")->checkTime(2000) && _enemyManager->size() < 20)
+	if (!_isStageInit)
 	{
-		_enemyManager->addEnemy(STAGE_WIDTH, STAGE_HEIGHT - LAND_HEIGHT);
-		_enemyManager->addEnemy(0, STAGE_HEIGHT - LAND_HEIGHT);
+		if (_stageNum == 0 && KEYMANAGER->isOnceKeyDown(VK_RETURN))
+		{
+			stage1();
+		}
 	}
 }
 void StageManager::render()
 {
 	if (_stage != NULL) _stage->render();
+
+	if (!_isStageInit)
+	{
+		if (_stageNum == 0)
+		{
+			IMAGEMANAGER->findImage("intro 1")->render(CAMERA->getCameraDC());
+		}
+	}
 
 	_playerManager->render();
 	_enemyManager->render();
@@ -79,4 +116,14 @@ void StageManager::stage1()
 
 	_stage = new Stage;
 	_stage->initialize(_bg, _land, _campfire, _fountain);
+
+	_playerManager->getPlayer()->initialize();
+	_playerManager->getPlayer()->setPosition(STAGE_WIDTH / 2, STAGE_HEIGHT - 300);
+	_playerManager->getQueen()->initialize();
+	_playerManager->getQueen()->setPosition(STAGE_WIDTH / 2, 0);
+	_playerManager->getQueen()->setSpeed(0);
+
+	_ui->setView(true);
+
+	_isStageInit = true;
 }

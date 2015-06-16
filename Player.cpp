@@ -23,7 +23,7 @@ HRESULT Player::initialize()
 
 	_selectWeapon = Player::PLAYER_WEAPON_PISTOL;
 
-	GameObject::initialize(100, STAGE_HEIGHT - LAND_HEIGHT, 40, 40);
+	GameObject::initialize(0, 0, 40, 40);
 	Unit::initialize();
 
 	return S_OK;
@@ -43,6 +43,12 @@ void Player::update()
 	if (TIMEMANAGER->addTimer("player health point up")->checkTime(100) && getHp() < 1)
 	{
 		setHp(getHp() + 0.005);
+	}
+
+	if (getRect().bottom + getSpeedY() > STAGE_HEIGHT - LAND_HEIGHT)
+	{
+		setSpeedY(0);
+		setY(STAGE_HEIGHT - LAND_HEIGHT - getHeight() / 2);
 	}
 
 	//이미지 위치 셋

@@ -16,7 +16,7 @@ HRESULT Queen::initialize()
 	Unit::initialize();
 
 	_image = IMAGEMANAGER->findImage("queen")->getSpriteImage(4, 1);
-	GameObject::initialize(STAGE_WIDTH / 2, 0, 40, 40);
+	GameObject::initialize(-100, 0, 40, 40);
 	
 	_hp = 1.0f;
 

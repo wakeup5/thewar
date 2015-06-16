@@ -63,6 +63,8 @@ void GameNode::release(void)
 
 	CAMERA->release();
 	CAMERA->releaseSingleton();
+
+	ReleaseDC(_hWnd, _hdc);
 }
 
 //화면갱신

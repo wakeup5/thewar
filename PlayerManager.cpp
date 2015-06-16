@@ -51,12 +51,6 @@ void PlayerManager::update()
 	_bullet->update();
 	_queen->update();
 
-	//카메라 위치 스테이지 클래스로 옮겨야 함.
-	float x = _player->getX() + (CAMERA->getMouseX() - _player->getX()) * 0.3;
-	float y = _player->getY() + (CAMERA->getMouseY() - _player->getY()) * 0.3;
-
-	CAMERA->setX(x);
-	CAMERA->setY(y);
 }
 
 void PlayerManager::playerFireUpdate()

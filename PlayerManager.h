@@ -21,5 +21,8 @@ public:
 
 	void playerFireUpdate();
 	void collisionEnemyBullet();
+
+	Player* getPlayer(){ return _player; }
+	Queen* getQueen(){ return _queen; }
 };
 

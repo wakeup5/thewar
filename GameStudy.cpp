@@ -10,13 +10,14 @@ HRESULT GameStudy::initialize(void)
 
 	imageLoad();
 
+	_ui = new UI;
+	OBJECTMANAGER->addObject(GUID_UI, _ui);
+
 	_stageManager = new StageManager;
 	_stageManager->initialize();
-
-	_ui = new UI;
-	_ui->initialize();
 	//ShowCursor(false);
 
+	_ui->initialize();
 	return S_OK;
 }
 
@@ -93,4 +94,6 @@ void GameStudy::imageLoad()
 	
 	IMAGEMANAGER->addImage("enemy move", "resource/enemy_move.bmp", 160, 150, TRUE, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("enemy shoot", "resource/enemy_shoot.bmp", 400, 100, TRUE, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addImage("intro 1", "resource/intro.bmp", 1600, 800);
 }

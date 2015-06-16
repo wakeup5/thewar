@@ -14,7 +14,7 @@ UI::~UI()
 HRESULT UI::initialize()
 {
 	_player = OBJECTMANAGER->findObject<Player>(GUID_PLAYER);
-
+	_render = false;
 	return S_OK;
 }
 void UI::release()
@@ -27,6 +27,7 @@ void UI::update()
 }
 void UI::render(HDC bufferDC)
 {
+	if (!_render) return;
 	//물 보유량 체크
 	float water = _player->getWater();
 	IMAGEMANAGER->render("water bar back", bufferDC, WIN_SIZE_X / 2 - 102, 11);
