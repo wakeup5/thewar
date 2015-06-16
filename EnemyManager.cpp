@@ -41,10 +41,12 @@ void EnemyManager::update()
 		{
 			if (IntersectRect(&r, &(*liBullet)->getRect(), &(*_viEnemy)->getRect()))
 			{
-				(*_viEnemy)->setHp((*_viEnemy)->getHp() - 1);
-				EFFECTMANAGER->addEffect(
-					IMAGEMANAGER->findImage("water ball pop")->getSpriteImage((*liBullet)->getX(), (*liBullet)->getY(), 4, 1));
+				(*_viEnemy)->setHp((*_viEnemy)->getHp() - (*liBullet)->getDamage());
+				(*_viEnemy)->hit();
+				EFFECTMANAGER->addEffect(IMAGEMANAGER->findImage("water ball pop")->getSpriteImage((*liBullet)->getX(), (*liBullet)->getY(), 4, 1));
+
 				liBullet = playerBullet->erase(liBullet);
+
 			}
 			else
 			{

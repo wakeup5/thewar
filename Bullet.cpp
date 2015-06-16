@@ -83,10 +83,11 @@ void Bullet::render()
 	}
 }
 
-void Bullet::fire(float x, float y, float angleR, float speed, SpriteImage* spriteImage)
+void Bullet::fire(float x, float y, float angleR, float speed, SpriteImage* spriteImage, float damage)
 {
 	OBullet* oBullet = new OBullet;
 	oBullet->initialize(x, y, angleR, speed, spriteImage, 50);
+	oBullet->setDamage(damage);
 
 	_lBullet.push_back(oBullet);
 }

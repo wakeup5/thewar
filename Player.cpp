@@ -136,4 +136,6 @@ void Player::render()
 		_moveImage->render(CAMERA->getCameraDC());
 	}
 	_armImage->render(CAMERA->getCameraDC());
+
+	Unit::render();
 }

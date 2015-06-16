@@ -26,12 +26,15 @@ void Land::release()
 void Land::update()
 {
 	Player* player = OBJECTMANAGER->findObject<Player>(GUID_PLAYER);
+	Queen* queen = OBJECTMANAGER->findObject<Queen>(GUID_QUEEN);
 	StageObject* campfire = OBJECTMANAGER->findObject<StageObject>(GUID_CAMPFIRE);
 	StageObject* fountain = OBJECTMANAGER->findObject<StageObject>(GUID_FOUNTAIN);
 	VEnemy* vEnemy = OBJECTMANAGER->findObject<VEnemy>(GUID_ENEMYS);
 
 	collisionFloor(player);
 	collisionByUnit(player);
+	collisionFloor(queen);
+	collisionByUnit(queen);
 
 	collisionFloor(campfire);
 	collisionByStageObject(campfire);

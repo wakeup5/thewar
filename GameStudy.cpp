@@ -70,6 +70,8 @@ void GameStudy::imageLoad()
 	IMAGEMANAGER->addImage("player stay", "resource/player_stay.bmp", 40, 80, TRUE, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("player arm", "resource/player_arm.bmp", 560, 40, TRUE, RGB(255, 0, 255));
 
+	IMAGEMANAGER->addImage("queen", "resource/queen.bmp", 160, 45, TRUE, RGB(255, 0, 255));
+
 	IMAGEMANAGER->addImage("water ball", "resource/water_ball.bmp", 200, 20, TRUE, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("water ball pop", "resource/water_ball_pop.bmp", 200, 50, TRUE, RGB(255, 0, 255));
 

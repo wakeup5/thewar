@@ -8,6 +8,7 @@ public:
 	{
 		UNIT_MOVE_LEFT,
 		UNIT_MOVE_RIGHT,
+		UNIT_HIT,
 		UNIT_STAY
 	};
 
@@ -18,10 +19,16 @@ public:
 		UNIT_JUMP_DOWN
 	};
 
-private:
+protected:
 	UNIT_STATE _state;
 	UNIT_JUMP_STATE _jumpState;
 	CheckTimer* _jumpTimer;
+	CheckTimer* _hitTimer;
+
+	CheckTimer* _dialogTimer;
+	float _time;
+	bool _isDialog;
+	std::string _dialog;
 
 public:
 	Unit(){}
@@ -35,6 +42,7 @@ public:
 	virtual HRESULT initialize();
 	virtual void update();
 	virtual void release();
+	virtual void render();
 
 	virtual void jump(float);
 	virtual void downJump();
@@ -42,5 +50,8 @@ public:
 	virtual void right(float);
 	virtual void stay();
 	virtual void attack();
+	virtual void hit();
+
+	virtual void dialog(std::string, float);
 };
 

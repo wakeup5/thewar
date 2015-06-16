@@ -20,6 +20,7 @@ HRESULT Enemy::initialize()
 
 	_actionTimer = TIMEMANAGER->addTimer();
 	_fireTimer = TIMEMANAGER->addTimer();
+
 	_actionNum = 0;
 
 	_hp = 1.0f;
@@ -44,61 +45,67 @@ void Enemy::update()
 		setY(STAGE_HEIGHT - LAND_HEIGHT - getHeight() / 2);
 	}
 	//ai
-	if (_actionNum < 20)
+	if (getState() != Unit::UNIT_HIT)
 	{
-		left(ENEMY_SPEED);
-	}
-	else if (_actionNum < 40)
-	{
-		right(ENEMY_SPEED);
-	}
-	else if (_actionNum < 50)
-	{
-		left(ENEMY_SPEED); 
-		jump(ENEMY_JUMP);
-	}
-	else if (_actionNum < 60)
-	{
-		right(ENEMY_SPEED);
-		jump(ENEMY_JUMP);
-	}
-	else if (_actionNum < 70)
-	{
-		jump(ENEMY_JUMP);
-	}
-	else if (_actionNum < 90)
-	{
-		stay();
-	}
-	else if (_actionNum < 100)
-	{
-		downJump();
-	}
-
-	if (_actionTimer->checkTime(500))
-	{
-		_actionNum = RANDOM->getInt(100);
-	}
-
-	if (getState() == Unit::UNIT_STAY)
-	{
-		Player* player = OBJECTMANAGER->findObject<Player>(GUID_PLAYER);
-		_attackAngle = myUtil::getGradeDegreeByTwoPoint(getX(), getY(), player->getX(), player->getY());
-		if (_attackAngle >= 360) _attackAngle -= 360;
-		_attackImage->setFrameX((_attackAngle + 18) / 360 * 10);
-
-		if (_fireTimer->checkTime(1000))
+		if (_actionNum < 20)
 		{
-			_bullet->fire(getX(), getY(), myUtil::radianFromDegree(_attackAngle), 10, IMAGEMANAGER->findImage("water ball")->getSpriteImage(10, 1));
-			attack();
+			left(ENEMY_SPEED);
 		}
-		else
+		else if (_actionNum < 40)
+		{
+			right(ENEMY_SPEED);
+		}
+		else if (_actionNum < 50)
+		{
+			left(ENEMY_SPEED);
+			jump(ENEMY_JUMP);
+		}
+		else if (_actionNum < 60)
+		{
+			right(ENEMY_SPEED);
+			jump(ENEMY_JUMP);
+		}
+		else if (_actionNum < 70)
+		{
+			jump(ENEMY_JUMP);
+		}
+		else if (_actionNum < 90)
 		{
 			stay();
 		}
-	}
+		else if (_actionNum < 100)
+		{
+			downJump();
+		}
 
-	imageFrameUpdate();
+		if (_actionTimer->checkTime(500))
+		{
+			_actionNum = RANDOM->getInt(100);
+		}
+
+		if (getState() == Unit::UNIT_STAY)
+		{
+			Player* player = OBJECTMANAGER->findObject<Player>(GUID_PLAYER);
+			_attackAngle = myUtil::getGradeDegreeByTwoPoint(getX(), getY(), player->getX(), player->getY());
+			if (_attackAngle >= 360) _attackAngle -= 360;
+			_attackImage->setFrameX((_attackAngle + 18) / 360 * 10);
+
+			if (_fireTimer->checkTime(1000))
+			{
+				_bullet->fire(getX(), getY(), myUtil::radianFromDegree(_attackAngle), 10, IMAGEMANAGER->findImage("water ball")->getSpriteImage(10, 1), 0.05);
+				attack();
+			}
+			else
+			{
+				stay();
+			}
+		}
+
+		imageFrameUpdate();
+	}
+	
+	_moveImage->setCenter(getX(), getY());
+	_attackImage->setCenter(getX(), getY());
 	Unit::update();
 	activate(GRAVITY_ACCEL);
 }
@@ -130,12 +137,33 @@ void Enemy::imageFrameUpdate()
 		}
 		_moveImage->nextFrameX(100);
 	}
-
-	_moveImage->setCenter(getX(), getY());
-	_attackImage->setCenter(getX(), getY());
 }
-
+void Enemy::stay()
+{
+	Unit::stay(); 
+	setSpeedX(0);
+}
 void Enemy::attack()
 {
 	_attackImage->setFrameY(1);
+}
+
+void Enemy::hit()
+{
+	Player* player = OBJECTMANAGER->findObject<Player>(GUID_PLAYER);
+	if (player->getX() > getX())
+	{
+		_moveImage->setFrameX(0);
+		setSpeedX(-2);
+	}
+	else
+	{
+		_moveImage->setFrameX(1);
+		setSpeedX(2);
+	}
+	_moveImage->setFrameY(3);
+	setSpeedY(-3);
+	setY(getY() + getSpeedY());
+
+	Unit::hit();
 }

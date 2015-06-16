@@ -43,10 +43,10 @@ void Stage::update()
 	if (IntersectRect(&makeRect(0, 0, 0, 0), &_fountain->getRect(), &_player->getRect()) &&
 		TIMEMANAGER->addTimer("player fountain water")->checkTime(200))
 	{
-		_player->setWater(_player->getWater() + 0.005);
+		_player->setWater(_player->getWater() + 0.02);
 		if (_player->getHp() > 0.2)
 		{
-			_player->setHp(_player->getHp() - 0.05);
+			_player->setHp(_player->getHp() - 0.005);
 		}
 	}
 

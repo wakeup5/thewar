@@ -25,7 +25,9 @@ public:
 	void update();
 	void render();
 
+	void stay();
 	void attack();
+	void hit();
 
 	void imageFrameUpdate();
 

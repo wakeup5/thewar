@@ -12,6 +12,8 @@ public:
 
 		float _startX;
 		float _startY;
+
+		float _damage;
 	public:
 		BulletObject(){}
 		~BulletObject(){}
@@ -23,6 +25,9 @@ public:
 
 		float getStartX(){ return _startX; }
 		float getStartY(){ return _startY; }
+
+		void setDamage(float d){ _damage = d; }
+		float getDamage(){ return _damage; }
 	};
 
 	typedef std::list<BulletObject*> LBullet;
@@ -41,7 +46,7 @@ public:
 	void update();
 	void render();
 
-	void fire(float x, float y, float angleR, float speed, SpriteImage* spriteImage);
+	void fire(float x, float y, float angleR, float speed, SpriteImage* spriteImage, float damage);
 
 	LBullet* getBullet(){ return &_lBullet; }
 };

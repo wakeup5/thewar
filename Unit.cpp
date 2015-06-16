@@ -4,7 +4,8 @@
 HRESULT Unit::initialize()
 {
 	_jumpTimer = TIMEMANAGER->addTimer();
-
+	_hitTimer = TIMEMANAGER->addTimer();
+	_dialogTimer = TIMEMANAGER->addTimer();
 	return S_OK;
 }
 
@@ -23,6 +24,30 @@ void Unit::update()
 	if (_jumpState == Unit::UNIT_JUMP_UP && getSpeedY() > 0)
 	{
 		_jumpState = Unit::UNIT_JUMP_DOWN;
+	}
+
+	if (_state == Unit::UNIT_HIT && _hitTimer->checkTime(280))
+	{
+		stay();
+	}
+}
+
+void Unit::render()
+{
+	if (_isDialog)
+	{
+		SetBkMode(CAMERA->getCameraDC(), TRANSPARENT);
+		SetTextColor(CAMERA->getCameraDC(), RGB(0, 0, 0));
+
+		float width = _dialog.size() * 10;
+
+		drawRectangleCenter(CAMERA->getCameraDC(), getX(), getY() - getHeight(), width, 28);
+		TextOut(CAMERA->getCameraDC(), getX() - width / 2 + 7, getY() - getHeight() - 8, _dialog.c_str(), _dialog.size());
+
+		if (_dialogTimer->checkTime(_time))
+		{
+			_isDialog = false;
+		}
 	}
 }
 
@@ -65,4 +90,18 @@ void Unit::stay()
 void Unit::attack()
 {
 
+}
+
+void Unit::hit()
+{
+	_state = Unit::UNIT_HIT;
+	_hitTimer->checkTime(1);
+}
+
+void Unit::dialog(string speek, float time)
+{
+	_dialog = speek;
+	_time = time;
+	_isDialog = true;
+	_dialogTimer->checkTime(1);
 }
