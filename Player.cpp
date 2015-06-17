@@ -19,7 +19,7 @@ HRESULT Player::initialize()
 	_armImage = IMAGEMANAGER->findImage("player arm")->getSpriteImage(14, 1);
 
 	_water = 1.0f;
-	_hp = 0.0f;
+	_hp = 1.0f;
 
 	_selectWeapon = Player::PLAYER_WEAPON_PISTOL;
 
@@ -84,7 +84,7 @@ void Player::selectWeaponUpdate()
 	if (KEYMANAGER->isOnceKeyDown('1')) setWeapon(PLAYER_WEAPON_PISTOL);
 	else if (KEYMANAGER->isOnceKeyDown('2')) setWeapon(PLAYER_WEAPON_SMG);
 	else if (KEYMANAGER->isOnceKeyDown('3')) setWeapon(PLAYER_WEAPON_SNIPER);
-	else if (KEYMANAGER->isOnceKeyDown('4')) setWeapon(PLAYER_WEAPON_WATERBOMB);
+	//else if (KEYMANAGER->isOnceKeyDown('4')) setWeapon(PLAYER_WEAPON_WATERBOMB);
 }
 
 void Player::collisionUpdate()

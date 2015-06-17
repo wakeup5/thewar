@@ -96,4 +96,7 @@ void GameStudy::imageLoad()
 	IMAGEMANAGER->addImage("enemy shoot", "resource/enemy_shoot.bmp", 400, 100, TRUE, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addImage("intro 1", "resource/intro.bmp", 1600, 800);
+
+	IMAGEMANAGER->addImage("boss move", "resource/boss_move.bmp", 360, 300, TRUE, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("boss shoot", "resource/boss_shoot.bmp", 800, 200, TRUE, RGB(255, 0, 255));
 }

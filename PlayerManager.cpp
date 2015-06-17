@@ -75,7 +75,7 @@ void PlayerManager::playerFireUpdate()
 			}
 			break;
 		case Player::PLAYER_WEAPON_SNIPER:
-			if (TIMEMANAGER->addTimer("player weapon sniper")->checkTime(800))
+			if (TIMEMANAGER->addTimer("player weapon sniper")->checkTime(400))
 			{
 				_bullet->fire(_player->getX(), _player->getY(), fireAngleR, 25, IMAGEMANAGER->findImage("water ball")->getSpriteImage(10, 1), 1);
 				_player->setWater(_player->getWater() - 0.01);

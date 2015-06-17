@@ -16,6 +16,8 @@ private:
 
 	bool _isCameraFromPlayer;
 
+	bool _isBoss;
+
 	int _needKillNum;
 
 	StageObject* _campfire;

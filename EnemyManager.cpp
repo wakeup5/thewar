@@ -85,3 +85,19 @@ void EnemyManager::addEnemy(float x, float y)
 
 	_vEnemy->push_back(enemy);
 }
+
+void EnemyManager::addBoss(float x, float y, float hp)
+{
+	Enemy* enemy = new EnemyBoss;
+	enemy->initialize();
+	enemy->setPosition(x, y);
+	enemy->setHp(hp);
+
+	_vEnemy->push_back(enemy);
+}
+
+void EnemyManager::clear()
+{
+	for (_viEnemy = _vEnemy->begin(); _viEnemy != _vEnemy->end(); _viEnemy = _vEnemy->erase(_viEnemy));
+	_vEnemy->clear();
+}

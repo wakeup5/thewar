@@ -62,7 +62,7 @@ void UI::render(HDC bufferDC)
 	IMAGEMANAGER->render("icon weapon pistol", bufferDC, WIN_SIZE_X - 200, 2, (weapon == Player::PLAYER_WEAPON_PISTOL) ? 255 : 100);
 	IMAGEMANAGER->render("icon weapon smg", bufferDC, WIN_SIZE_X - 150, 2, (weapon == Player::PLAYER_WEAPON_SMG) ? 255 : 100);
 	IMAGEMANAGER->render("icon weapon sniper", bufferDC, WIN_SIZE_X - 100, 2, (weapon == Player::PLAYER_WEAPON_SNIPER) ? 255 : 100);
-	IMAGEMANAGER->render("icon weapon bomb", bufferDC, WIN_SIZE_X - 50, 2, (weapon == Player::PLAYER_WEAPON_WATERBOMB) ? 255 : 100);
+	//IMAGEMANAGER->render("icon weapon bomb", bufferDC, WIN_SIZE_X - 50, 2, (weapon == Player::PLAYER_WEAPON_WATERBOMB) ? 255 : 100);
 
 	//킬수
 	sprintf_s(str, "남은 수 : %3d", _killNum);

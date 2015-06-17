@@ -72,10 +72,20 @@ void StageManager::update()
 		_stage->update();
 
 		_enemyManager->update();
-		if (TIMEMANAGER->addTimer("enemy create timer")->checkTime(2000) && _enemyManager->size() <= _ui->getKillNum())
+		if (!_isBoss && _enemyManager->size() < _ui->getKillNum() - 1)
 		{
-			_enemyManager->addEnemy(STAGE_WIDTH, STAGE_HEIGHT - LAND_HEIGHT);
-			_enemyManager->addEnemy(0, STAGE_HEIGHT - LAND_HEIGHT);
+			if (TIMEMANAGER->addTimer("enemy create timer")->checkTime(500))
+			{
+				_enemyManager->addEnemy(STAGE_WIDTH, STAGE_HEIGHT - LAND_HEIGHT);
+				_enemyManager->addEnemy(0, STAGE_HEIGHT - LAND_HEIGHT);
+			}
+		}
+
+		if (_ui->getKillNum() == 1 && !_isBoss)
+		{
+			_enemyManager->clear();
+			_enemyManager->addBoss(STAGE_WIDTH / 2, STAGE_HEIGHT - LAND_HEIGHT, _stageNum * 0.8 + 10.0f);
+			_isBoss = true;
 		}
 	}
 
@@ -83,36 +93,26 @@ void StageManager::update()
 
 	if (!_isStageInit)
 	{
-		if (_stageNum == 0 && KEYMANAGER->isOnceKeyDown(VK_RETURN))
-		{
-			stage1();
-		}
-
-		if (_stageNum == 1)
-		{
-			stage2();
-		}
-
-		if (_stageNum == 2)
-		{
-			stage3();
-		}
-
-		if (_stageNum == 3)
-		{
-			stage4();
-		}
-
-		if (_stageNum == 4)
-		{
-			stage5();
-		}
+		if (_stageNum == 0 && KEYMANAGER->isOnceKeyDown(VK_RETURN))	stage1();
+		if (_stageNum == 1) stage2();
+		if (_stageNum == 2) stage3();
+		if (_stageNum == 3) stage4();
+		if (_stageNum == 4) stage5();
 	}
 
 	if (_isStageInit && _ui->getKillNum() <= 0)
 	{
 		_isStageInit = false;
 		_stageNum++;
+	}
+
+	if (_playerManager->getPlayer()->getHp() <= 0)
+	{
+		if (_stageNum == 0) stage1();
+		if (_stageNum == 1) stage2();
+		if (_stageNum == 2) stage3();
+		if (_stageNum == 3) stage4();
+		if (_stageNum == 4) stage5();
 	}
 }
 void StageManager::render()
@@ -136,6 +136,9 @@ void StageManager::render()
 
 void StageManager::stage1()
 {
+	SAFE_DELETE(_land);
+	SAFE_DELETE(_stage);
+
 	_land = new Land;
 	_land->initialize(IMAGEMANAGER->findImage("ground"));
 	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 200, 75);
@@ -159,6 +162,9 @@ void StageManager::stage1()
 	_ui->setKillNum(20);
 
 	_isStageInit = true;
+
+	_enemyManager->clear();
+	_isBoss = false;
 }
 
 void StageManager::stage2()
@@ -192,6 +198,8 @@ void StageManager::stage2()
 	_ui->setKillNum(30);
 
 	_isStageInit = true;
+	_enemyManager->clear();
+	_isBoss = false;
 }
 
 void StageManager::stage3()
@@ -201,13 +209,12 @@ void StageManager::stage3()
 
 	_land = new Land;
 	_land->initialize(IMAGEMANAGER->findImage("ground"));
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 200, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 350, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 500, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 650, 75);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 200, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 350, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 500, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 600, STAGE_HEIGHT - 200, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 600, STAGE_HEIGHT - 300, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 600, STAGE_HEIGHT - 400, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 600, STAGE_HEIGHT - 500, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 600, STAGE_HEIGHT - 600, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 600, STAGE_HEIGHT - 700, 25);
 
 	_campfire->initialize(IMAGEMANAGER->findImage("campfire")->getSpriteImage(6, 1), STAGE_WIDTH / 2 - 50, 0, 40, 50);
 	_fountain->initialize(IMAGEMANAGER->findImage("fountain")->getSpriteImage(3, 1), STAGE_WIDTH / 2 + 50, 0, 50, 66);
@@ -225,6 +232,8 @@ void StageManager::stage3()
 	_ui->setKillNum(40);
 
 	_isStageInit = true;
+	_enemyManager->clear();
+	_isBoss = false;
 }
 
 void StageManager::stage4()
@@ -234,13 +243,8 @@ void StageManager::stage4()
 
 	_land = new Land;
 	_land->initialize(IMAGEMANAGER->findImage("ground"));
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 200, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 350, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 500, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 650, 75);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 200, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 350, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 500, 25);
+	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 200, 75);
+	
 
 	_campfire->initialize(IMAGEMANAGER->findImage("campfire")->getSpriteImage(6, 1), STAGE_WIDTH / 2 - 50, 0, 40, 50);
 	_fountain->initialize(IMAGEMANAGER->findImage("fountain")->getSpriteImage(3, 1), STAGE_WIDTH / 2 + 50, 0, 50, 66);
@@ -258,6 +262,8 @@ void StageManager::stage4()
 	_ui->setKillNum(50);
 
 	_isStageInit = true;
+	_enemyManager->clear();
+	_isBoss = false;
 }
 
 void StageManager::stage5()
@@ -267,13 +273,6 @@ void StageManager::stage5()
 
 	_land = new Land;
 	_land->initialize(IMAGEMANAGER->findImage("ground"));
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 200, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 350, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 500, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 200, STAGE_HEIGHT - 650, 75);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 200, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 350, 25);
-	_land->addFloors(IMAGEMANAGER->findImage("floor ground"), 16, 2, 1000, STAGE_HEIGHT - 500, 25);
 
 	_campfire->initialize(IMAGEMANAGER->findImage("campfire")->getSpriteImage(6, 1), STAGE_WIDTH / 2 - 50, 0, 40, 50);
 	_fountain->initialize(IMAGEMANAGER->findImage("fountain")->getSpriteImage(3, 1), STAGE_WIDTH / 2 + 50, 0, 50, 66);
@@ -291,4 +290,6 @@ void StageManager::stage5()
 	_ui->setKillNum(60);
 
 	_isStageInit = true;
+	_enemyManager->clear();
+	_isBoss = false;
 }

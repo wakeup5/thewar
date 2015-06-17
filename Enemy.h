@@ -2,7 +2,7 @@
 #include "Unit.h"
 class Enemy : public Unit
 {
-private:
+protected:
 	SpriteImage* _moveImage;
 	SpriteImage* _attackImage;
 
@@ -20,14 +20,14 @@ public:
 	Enemy();
 	~Enemy();
 
-	HRESULT initialize();
+	virtual HRESULT initialize();
 	void release();
 	void update();
 	void render();
 
 	void stay();
-	void attack();
-	void hit();
+	virtual void attack();
+	virtual void hit();
 
 	void imageFrameUpdate();
 
@@ -35,3 +35,12 @@ public:
 	float getHp(){ return _hp; }
 };
 
+class EnemyBoss : public Enemy
+{
+public:
+	EnemyBoss(){}
+	~EnemyBoss(){}
+	virtual HRESULT initialize();
+	void hit();
+	void attack();
+};

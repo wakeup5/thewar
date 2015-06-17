@@ -48,7 +48,7 @@ void Stage::update()
 		_player->setWater(_player->getWater() + 0.02);
 		if (_player->getHp() > 0.2)
 		{
-			_player->setHp(_player->getHp() - 0.005);
+			_player->setHp(_player->getHp() - 0.02);
 		}
 	}
 }

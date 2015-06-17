@@ -23,6 +23,8 @@ public:
 	void render();
 
 	void addEnemy(float x, float y);
+	void addBoss(float x, float Y, float hp);
+	void clear();
 
 	int size(){ return _vEnemy->size(); }
 };
